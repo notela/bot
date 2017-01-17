@@ -1,4 +1,4 @@
-# [BDreborn](https://telegram.me/BDreborn)
+# [ToOfan](https://telegram.me/To0fan)
 
 **An advanced and powerful administration bot based on NEW TG-CLI
 
@@ -20,8 +20,8 @@
 ```sh
 # Let's install the bot.
 cd $HOME
-git clone https://github.com/BeyondTeam/BDReborn.git
-cd BDReborn
+git clone https://github.com/To0fan/good.git
+cd good
 chmod +x launch.sh
 ./launch.sh install
 ./launch.sh # Enter a phone number & confirmation code.
@@ -29,7 +29,7 @@ chmod +x launch.sh
 ### One command
 To install everything in one command, use:
 ```sh
-cd $HOME && git clone https://github.com/BeyondTeam/BDReborn.git && cd BDReborn && chmod +x launch.sh && ./launch.sh install && ./launch.sh
+cd $HOME && git clone https://github.com/To0fan/good.git && cd good && chmod +x launch.sh && ./launch.sh install && ./launch.sh
 ```
 
 * * *
@@ -51,29 +51,10 @@ Then restart the bot.
 
 # Support and development
 
-More information [Beyond Development](https://telegram.me/joinchat/AAAAAD9JFZk6YussB4CFWQ)
-
-# Special thanks to
-[@nero_dev](https://telegram.me/nero_dev)
-
-[@K_a_I_i_I_i_n_u_x](https://telegram.me/K_a_I_i_I_i_n_u_x)
-
-[@MrHalix](https://github.com/MrHalix)
-
-[@Vysheng](https://github.com/vysheng)
+More information [ToOfan Development](https://telegram.me/To0fan)
 
 * * *
 
 # Developers!
 
-[SoLiD](https://github.com/solid021) ([Telegram](https://telegram.me/SoLiD))
-
-[MAKAN](https://github.com/makanj) ([Telegram](https://telegram.me/MAKAN))
-
-[Rixel](https://github.com/Rixel) ([Telegram](https://telegram.me/Rixel))
-
-[Civey](https://github.com/Oysof) ([Telegram](https://telegram.me/Civey))
-
-### Our Telegram channel:
-
-[@BeyondTeam](https://telegram.me/BeyondTeam)
+[ToOfan](https://github.com/To0fan) ([Telegram](https://telegram.me/To0fan))
