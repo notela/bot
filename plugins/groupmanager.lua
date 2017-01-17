@@ -15,7 +15,7 @@ local function modadd(msg)
       is_silent_users ={},
       settings = {
           lock_link = 'yes',
-          lock_tag = 'yes',
+          lock_tag = 'no',
           lock_spam = 'yes',
           lock_webpage = 'no',
           lock_markdown = 'no',
@@ -78,11 +78,11 @@ local function modlist(msg)
   end
   -- determine if table is empty
   if next(data[tostring(msg.chat_id_)]['mods']) == nil then --fix way
-    return "_No_ *moderator* _in this group_"
+    return "_No_ *Moderator* _in this group_"
   end
   local message = '*List of moderators :*\n'
   for k,v in pairs(data[tostring(msg.chat_id_)]['mods']) do
-    message = message ..i.. '- '..v..' [' ..k.. '] \n'
+    message = message ..'`'..i.. '`- '..v..' [_' ..k.. '_] \n'
    i = i + 1
 end
   return message
@@ -96,11 +96,11 @@ local function ownerlist(msg)
   end
   -- determine if table is empty
   if next(data[tostring(msg.chat_id_)]['owners']) == nil then --fix way
-    return "_No_ *owner* _in this group_"
+    return "_No_ *Owner* _in this group_"
   end
   local message = '*List of group owners :*\n'
   for k,v in pairs(data[tostring(msg.chat_id_)]['owners']) do
-    message = message ..i.. '- '..v..' [' ..k.. '] \n'
+    message = message ..'1'..i.. '`- '..v..' [_' ..k.. '_] \n'
    i = i + 1
 end
   return message
@@ -122,11 +122,11 @@ else
 user_name = data.first_name_
 end
 if administration[tostring(arg.chat_id)]['owners'][tostring(data.id_)] then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already a_ *group owner*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is already a_ *Group Owner*", 0, "md")
    end
 administration[tostring(arg.chat_id)]['owners'][tostring(data.id_)] = user_name
     save_data(_config.moderation.data, administration)
-  return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is now the_ *group owner*", 0, "md")
+  return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is now the_ *Group Owner*", 0, "md")
 end
 tdcli_function ({
     ID = "GetUser",
@@ -142,11 +142,11 @@ else
 user_name = data.first_name_
 end
 if administration[tostring(arg.chat_id)]['mods'][tostring(data.id_)] then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already a_ *moderator*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is already a_ *Moderator*", 0, "md")
    end
 administration[tostring(arg.chat_id)]['mods'][tostring(data.id_)] = user_name
     save_data(_config.moderation.data, administration)
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been_ *promoted*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _has been_ *Promoted*", 0, "md")
 end
 tdcli_function ({
     ID = "GetUser",
@@ -162,11 +162,11 @@ else
 user_name = data.first_name_
 end
 if not administration[tostring(arg.chat_id)]['owners'][tostring(data.id_)] then
-return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not a_ *group owner*", 0, "md")
+return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is not a_ *Group Owner*", 0, "md")
    end
 administration[tostring(arg.chat_id)]['owners'][tostring(data.id_)] = nil
     save_data(_config.moderation.data, administration)
-return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is no longer a_ *group owner*", 0, "md")
+return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is no longer a_ *Group Owner*", 0, "md")
 end
 tdcli_function ({
     ID = "GetUser",
@@ -182,11 +182,11 @@ else
 user_name = data.first_name_
 end
 if not administration[tostring(arg.chat_id)]['mods'][tostring(data.id_)] then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not a_ *moderator*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is not a_ *Moderator*", 0, "md")
    end
 administration[tostring(arg.chat_id)]['mods'][tostring(data.id_)] = nil
     save_data(_config.moderation.data, administration)
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been_ *demoted*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _has been_ *Demoted*", 0, "md")
 end
 tdcli_function ({
     ID = "GetUser",
@@ -218,43 +218,43 @@ end
 if not arg.username then return false end
 if cmd == "setowner" then
 if administration[tostring(arg.chat_id)]['owners'][tostring(data.id_)] then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already a_ *group owner*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is already a_ *Group Owner*", 0, "md")
    end
 administration[tostring(arg.chat_id)]['owners'][tostring(data.id_)] = user_name
     save_data(_config.moderation.data, administration)
-  return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is now the_ *group owner*", 0, "md")
+  return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is now the_ *Group Owner*", 0, "md")
   end
   if cmd == "promote" then
 if administration[tostring(arg.chat_id)]['mods'][tostring(data.id_)] then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already a_ *moderator*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is already a_ *Moderator*", 0, "md")
    end
 administration[tostring(arg.chat_id)]['mods'][tostring(data.id_)] = user_name
     save_data(_config.moderation.data, administration)
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been_ *promoted*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _has been_ *Promoted*", 0, "md")
 end
    if cmd == "remowner" then
 if not administration[tostring(arg.chat_id)]['owners'][tostring(data.id_)] then
-return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not a_ *group owner*", 0, "md")
+return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is not a_ *Group Owner*", 0, "md")
    end
 administration[tostring(arg.chat_id)]['owners'][tostring(data.id_)] = nil
     save_data(_config.moderation.data, administration)
-return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is no longer a_ *group owner*", 0, "md")
+return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is no longer a_ *Group Owner*", 0, "md")
 end
    if cmd == "demote" then
 if not administration[tostring(arg.chat_id)]['mods'][tostring(data.id_)] then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not a_ *moderator*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is not a_ *Moderator*", 0, "md")
    end
 administration[tostring(arg.chat_id)]['mods'][tostring(data.id_)] = nil
     save_data(_config.moderation.data, administration)
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been_ *demoted*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _has been_ *Demoted*", 0, "md")
 end
    if cmd == "id" then
     return tdcli.sendMessage(arg.chat_id, "", 0, "*"..data.id_.."*", 0, "md")
 end
     if cmd == "res" then
-    local text = "Result for [ ".. data.type_.user_.username_ .." ] :\n"
-    .. "".. data.title_ .."\n"
-    .. " [".. data.id_ .."]"
+    local text = "*Result for* [ `".. data.type_.user_.username_ .."` ] :\n"
+    .. "_".. data.title_ .."_\n"
+    .. " [`".. data.id_ .."`]"
        return tdcli.sendMessage(arg.chat_id, 0, 1, text, 1)
    end
 end
@@ -274,46 +274,46 @@ user_name = data.first_name_
 end
 if cmd == "setowner" then
 if administration[tostring(arg.chat_id)]['owners'][tostring(data.id_)] then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already a_ *group owner*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is already a_ *Group Owner*", 0, "md")
    end
 administration[tostring(arg.chat_id)]['owners'][tostring(data.id_)] = user_name
     save_data(_config.moderation.data, administration)
-  return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is now the_ *group owner*", 0, "md")
+  return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is now the_ *Group Owner*", 0, "md")
   end
   if cmd == "promote" then
 if administration[tostring(arg.chat_id)]['mods'][tostring(data.id_)] then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already a_ *moderator*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is already a_ *Moderator*", 0, "md")
    end
 administration[tostring(arg.chat_id)]['mods'][tostring(data.id_)] = user_name
     save_data(_config.moderation.data, administration)
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been_ *promoted*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _has been_ *Promoted*", 0, "md")
 end
    if cmd == "remowner" then
 if not administration[tostring(arg.chat_id)]['owners'][tostring(data.id_)] then
-return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not a_ *group owner*", 0, "md")
+return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is not a_ *Group Owner*", 0, "md")
    end
 administration[tostring(arg.chat_id)]['owners'][tostring(data.id_)] = nil
     save_data(_config.moderation.data, administration)
-return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is no longer a_ *group owner*", 0, "md")
+return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is no longer a_ *Group Owner*", 0, "md")
 end
    if cmd == "demote" then
 if not administration[tostring(arg.chat_id)]['mods'][tostring(data.id_)] then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not a_ *moderator*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is not a_ *Moderator*", 0, "md")
    end
 administration[tostring(arg.chat_id)]['mods'][tostring(data.id_)] = nil
     save_data(_config.moderation.data, administration)
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been_ *demoted*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _has been_ *Demoted*", 0, "md")
 end
     if cmd == "whois" then
 if data.username_ then
 username = '@'..data.username_
 else
-username = 'not found'
+username = '_not found_'
 end
-       return tdcli.sendMessage(arg.chat_id, 0, 1, 'Info for [ '..data.id_..' ] :\nUserName : '..username..'\nName : '..data.first_name_, 1)
+       return tdcli.sendMessage(arg.chat_id, 0, 1, '*Info for* [ _'..data.id_..'_ ] :\n*UserName:* '..username..'\n*Name:* '..data.first_name_, 1)
    end
  else
-  return tdcli.sendMessage(arg.chat_id, "", 0, "_User not founded_", 0, "md")
+  return tdcli.sendMessage(arg.chat_id, "", 0, "_User not found!_", 0, "md")
   end
 end
 
@@ -326,12 +326,12 @@ end
 
 local lock_link = data[tostring(target)]["settings"]["lock_link"] 
 if lock_link == "yes" then
- return "*Link* _Posting Is Already Locked_"
+ return "*Link Is Already* `Locked`"
 else
  data[tostring(target)]["settings"]["lock_link"] = "yes"
 save_data(_config.moderation.data, data) 
  return 
-"*Link* _Posting Has Been Locked_"
+"*Link Has Been `Locked`"
 end
 end
 
@@ -341,10 +341,10 @@ return "_You're Not_ *Moderator*"
 end 
 local lock_link = data[tostring(target)]["settings"]["lock_link"]
  if lock_link == "no" then
-return "*Link* _Posting Is Not Locked_" 
+return "*Link Is Not* `Locked`" 
 else 
 data[tostring(target)]["settings"]["lock_link"] = "no" save_data(_config.moderation.data, data) 
-return "*Link* _Posting Has Been Unlocked_" 
+return "*Link Has Been* `Unlocked`" 
 end
 end
 
@@ -356,12 +356,12 @@ end
 
 local lock_tag = data[tostring(target)]["settings"]["lock_tag"] 
 if lock_tag == "yes" then
- return "*Tag* _Posting Is Already Locked_"
+ return "*Tag Is Already* `Locked`"
 else
  data[tostring(target)]["settings"]["lock_tag"] = "yes"
 save_data(_config.moderation.data, data) 
  return 
-"*Tag* _Posting Has Been Locked_"
+"*Tag Has Been* `Locked`"
 end
 end
 
@@ -371,10 +371,10 @@ return "_You're Not_ *Moderator*"
 end 
 local lock_tag = data[tostring(target)]["settings"]["lock_tag"]
  if lock_tag == "no" then
-return "*Tag* _Posting Is Not Locked_" 
+return "*Tag Is Not* `Locked`" 
 else 
 data[tostring(target)]["settings"]["lock_tag"] = "no" save_data(_config.moderation.data, data) 
-return "*Tag* _Posting Has Been Unlocked_" 
+return "*Tag Has Been* `Unlocked`" 
 end
 end
 
@@ -386,12 +386,12 @@ end
 
 local lock_mention = data[tostring(target)]["settings"]["lock_mention"] 
 if lock_mention == "yes" then
- return "*Mention* _Posting Is Already Locked_"
+ return "*Mention Is Already* `Locked`"
 else
  data[tostring(target)]["settings"]["lock_mention"] = "yes"
 save_data(_config.moderation.data, data) 
  return 
-"*Mention* _Posting Has Been Locked_"
+"*Mention Has Been* `Locked`"
 end
 end
 
@@ -401,10 +401,10 @@ return "_You're Not_ *Moderator*"
 end 
 local lock_mention = data[tostring(target)]["settings"]["lock_mention"]
  if lock_mention == "no" then
-return "*Mention* _Posting Is Not Locked_" 
+return "*Mention Is Not* `Locked`" 
 else 
 data[tostring(target)]["settings"]["lock_mention"] = "no" save_data(_config.moderation.data, data) 
-return "*Mention* _Posting Has Been Unlocked_" 
+return "*Mention Has Been* `Unlocked`" 
 end
 end
 
@@ -416,12 +416,12 @@ end
 
 local lock_edit = data[tostring(target)]["settings"]["lock_edit"] 
 if lock_edit == "yes" then
- return "*Editing* _Is Already Locked_"
+ return "*Editing Is Already* `Locked`"
 else
  data[tostring(target)]["settings"]["lock_edit"] = "yes"
 save_data(_config.moderation.data, data) 
  return 
-"*Editing* _Has Been Locked_"
+"*Editing Has Been* `Locked`"
 end
 end
 
@@ -431,10 +431,10 @@ return "_You're Not_ *Moderator*"
 end 
 local lock_edit = data[tostring(target)]["settings"]["lock_edit"]
  if lock_edit == "no" then
-return "*Editing* _Is Not Locked_" 
+return "*Editing Is Not* `Locked`" 
 else 
 data[tostring(target)]["settings"]["lock_edit"] = "no" save_data(_config.moderation.data, data) 
-return "*Editing* _Has Been Unlocked_" 
+return "*Editing Has Been* `Unlocked`" 
 end
 end
 
@@ -446,12 +446,12 @@ end
 
 local lock_spam = data[tostring(target)]["settings"]["lock_spam"] 
 if lock_spam == "yes" then
- return "*Spam* _Is Already Locked_"
+ return "*Spam Is Already* `Locked`"
 else
  data[tostring(target)]["settings"]["lock_spam"] = "yes"
 save_data(_config.moderation.data, data) 
  return 
-"*Spam* _Has Been Locked_"
+"*Spam Has Been* `Locked`"
 end
 end
 
@@ -461,10 +461,10 @@ return "_You're Not_ *Moderator*"
 end 
 local lock_spam = data[tostring(target)]["settings"]["lock_spam"]
  if lock_spam == "no" then
-return "*Spam* _Posting Is Not Locked_" 
+return "*Spam Is Not* `Locked`" 
 else 
 data[tostring(target)]["settings"]["lock_spam"] = "no" save_data(_config.moderation.data, data) 
-return "*Spam* _Posting Has Been Unlocked_" 
+return "*Spam Has Been* `Unlocked`" 
 end
 end
 
@@ -476,12 +476,12 @@ end
 
 local lock_flood = data[tostring(target)]["settings"]["flood"] 
 if lock_flood == "yes" then
- return "*Flooding* _Is Already Locked_"
+ return "*Flooding Is Already* `Locked`"
 else
  data[tostring(target)]["settings"]["flood"] = "yes"
 save_data(_config.moderation.data, data) 
  return 
-"*Flooding* _Has Been Locked_"
+"*Flooding Has Been* `Locked`"
 end
 end
 
@@ -491,10 +491,10 @@ return "_You're Not_ *Moderator*"
 end 
 local lock_flood = data[tostring(target)]["settings"]["flood"]
  if lock_flood == "no" then
-return "*Flooding* _Is Not Locked_" 
+return "*Flooding Is Not* `Locked`" 
 else 
 data[tostring(target)]["settings"]["flood"] = "no" save_data(_config.moderation.data, data) 
-return "*Flooding* _Has Been Unlocked_" 
+return "*Flooding Has Been* `Unlocked`" 
 end
 end
 
@@ -506,12 +506,12 @@ end
 
 local lock_bots = data[tostring(target)]["settings"]["lock_bots"] 
 if lock_bots == "yes" then
- return "*Bots* _Protection Is Already Enabled"
+ return "*Bots Remove Is Already* `Enabled`"
 else
  data[tostring(target)]["settings"]["lock_bots"] = "yes"
 save_data(_config.moderation.data, data) 
  return 
-"*Bots* _Protection Has Been Enabled_"
+"*Bots Remove Has Been* `Enabled`"
 end
 end
 
@@ -521,10 +521,10 @@ return "_You're Not_ *Moderator*"
 end 
 local lock_bots = data[tostring(target)]["settings"]["lock_bots"]
  if lock_bots == "no" then
-return "*Bots* _Protection Is Not Enabled_" 
+return "*Bots Remove Is Not* `Enabled`" 
 else 
 data[tostring(target)]["settings"]["lock_bots"] = "no" save_data(_config.moderation.data, data) 
-return "*Bots* _Protection Has Been Disabled_" 
+return "*Bots Remove Has Been* `Disabled`" 
 end
 end
 
@@ -536,12 +536,12 @@ end
 
 local lock_markdown = data[tostring(target)]["settings"]["lock_markdown"] 
 if lock_markdown == "yes" then
- return "*Markdown* _Posting Is Already Locked_"
+ return "*Markdown Is Already* `Locked`"
 else
  data[tostring(target)]["settings"]["lock_markdown"] = "yes"
 save_data(_config.moderation.data, data) 
  return 
-"*Markdown* _Posting Has Been Locked_"
+"*Markdown Has Been* `Locked`"
 end
 end
 
@@ -551,10 +551,10 @@ return "_You're Not_ *Moderator*"
 end 
 local lock_markdown = data[tostring(target)]["settings"]["lock_markdown"]
  if lock_markdown == "no" then
-return "*Markdown* _Posting Is Not Locked_" 
+return "*Markdown Is Not* `Locked`" 
 else 
 data[tostring(target)]["settings"]["lock_markdown"] = "no" save_data(_config.moderation.data, data) 
-return "*Markdown* _Posting Has Been Unlocked_" 
+return "*Markdown Has Been* `Unlocked`" 
 end
 end
 
@@ -566,12 +566,12 @@ end
 
 local lock_webpage = data[tostring(target)]["settings"]["lock_webpage"] 
 if lock_webpage == "yes" then
- return "*Webpage* _Is Already Locked_"
+ return "*Webpage Is Already* `Locked`"
 else
  data[tostring(target)]["settings"]["lock_webpage"] = "yes"
 save_data(_config.moderation.data, data) 
  return 
-"*Webpage* _Has Been Locked_"
+"*Webpage Has Been* `Locked`"
 end
 end
 
@@ -581,11 +581,11 @@ return "_You're Not_ *Moderator*"
 end 
 local lock_webpage = data[tostring(target)]["settings"]["lock_webpage"]
  if lock_webpage == "no" then
-return "*Webpage* _Is Not Locked_" 
+return "*Webpage Is Not* `Locked`" 
 else 
 data[tostring(target)]["settings"]["lock_webpage"] = "no"
 save_data(_config.moderation.data, data) 
-return "*Webpage* _Has Been Unlocked_" 
+return "*Webpage Has Been* `Unlocked`" 
 end
 end
 
@@ -658,9 +658,87 @@ data[tostring(target)]["settings"]["lock_webpage"] = "no"
 end
 end
 
-
+if data[tostring(target)]["mutes"] then		
+if not data[tostring(target)]["mutes"]["mute_all"] then			
+data[tostring(target)]["mutes"]["mute_all"] = "no"		
+end
+end
+if data[tostring(target)]["mutes"] then		
+if not data[tostring(target)]["mutes"]["mute_gif"] then			
+data[tostring(target)]["mutes"]["mute_gif"] = "no"		
+end
+end
+if data[tostring(target)]["mutes"] then		
+if not data[tostring(target)]["mutes"]["mute_text"] then			
+data[tostring(target)]["mutes"]["mute_text"] = "no"		
+end
+end
+if data[tostring(target)]["mutes"] then		
+if not data[tostring(target)]["mutes"]["mute_photo"] then			
+data[tostring(target)]["mutes"]["mute_photo"] = "no"		
+end
+end
+if data[tostring(target)]["mutes"] then		
+if not data[tostring(target)]["mutes"]["mute_video"] then			
+data[tostring(target)]["mutes"]["mute_video"] = "no"		
+end
+end
+if data[tostring(target)]["mutes"] then		
+if not data[tostring(target)]["mutes"]["mute_audio"] then			
+data[tostring(target)]["mutes"]["mute_audio"] = "no"		
+end
+end
+if data[tostring(target)]["mutes"] then		
+if not data[tostring(target)]["mutes"]["mute_voice"] then			
+data[tostring(target)]["mutes"]["mute_voice"] = "no"		
+end
+end
+if data[tostring(target)]["mutes"] then		
+if not data[tostring(target)]["mutes"]["mute_sticker"] then			
+data[tostring(target)]["mutes"]["mute_sticker"] = "no"		
+end
+end
+if data[tostring(target)]["mutes"] then		
+if not data[tostring(target)]["mutes"]["mute_contact"] then			
+data[tostring(target)]["mutes"]["mute_contact"] = "no"		
+end
+end
+if data[tostring(target)]["mutes"] then		
+if not data[tostring(target)]["mutes"]["mute_forward"] then			
+data[tostring(target)]["mutes"]["mute_forward"] = "no"		
+end
+end
+if data[tostring(target)]["mutes"] then		
+if not data[tostring(target)]["mutes"]["mute_location"] then			
+data[tostring(target)]["mutes"]["mute_location"] = "no"		
+end
+end
+if data[tostring(target)]["mutes"] then		
+if not data[tostring(target)]["mutes"]["mute_document"] then			
+data[tostring(target)]["mutes"]["mute_document"] = "no"		
+end
+end
+if data[tostring(target)]["mutes"] then		
+if not data[tostring(target)]["mutes"]["mute_tgservice"] then			
+data[tostring(target)]["mutes"]["mute_tgservice"] = "no"		
+end
+end
+if data[tostring(target)]["mutes"] then		
+if not data[tostring(target)]["mutes"]["mute_inline"] then			
+data[tostring(target)]["mutes"]["mute_inline"] = "no"		
+end
+end
+if data[tostring(target)]["mutes"] then		
+if not data[tostring(target)]["mutes"]["mute_game"] then			
+data[tostring(target)]["mutes"]["mute_game"] = "no"		
+end
+end
+local mutes = data[tostring(target)]["mutes"] 
 local settings = data[tostring(target)]["settings"] 
-local text = "*Group Settings:*\n_Lock edit :_ *"..settings.lock_edit.."*\n_Lock links :_ *"..settings.lock_link.."*\n_Lock tags :_ *"..settings.lock_tag.."*\n_Lock flood :_ *"..settings.flood.."*\n_Lock spam :_ *"..settings.lock_spam.."*\n_Lock mention :_ *"..settings.lock_mention.."*\n_Lock webpage :_ *"..settings.lock_webpage.."*\n_Lock markdown :_ *"..settings.lock_markdown.."*\n_Bots protection :_ *"..settings.lock_bots.."*\n_Flood sensitivity :_ *"..NUM_MSG_MAX.."*"
+local text = "⚙*Group Settings:*\n🔹*Lock Edit :* "..settings.lock_edit.."\n🔹*Lock Links :* "..settings.lock_link.."\n🔹*Lock Tags :* "..settings.lock_tag.."\n🔹*Lock Flood :* "..settings.flood.."\n🔹*Lock Spam :* "..settings.lock_spam.."\n🔹*Lock Mention :* "..settings.lock_mention.."\n🔹*Lock Webpage :* "..settings.lock_webpage.."\n🔹*Lock Markdown :* "..settings.lock_markdown.."\n🔹*Bots Remove :* "..settings.lock_bots.."\n🔹*Flood Sensitivity :* `"..NUM_MSG_MAX.."` \n➡️➡️➡️\n⚙*Group Mute List* : \n🔹*Mute All :* "..mutes.mute_all.."\n🔹*Mute Gif :* "..mutes.mute_gif.."\n🔹*Mute Text :* "..mutes.mute_text.."\n🔹*Mute Inline :* "..mutes.mute_inline.."\n🔹*Mute Game :* "..mutes.mute_game.."\n🔹*Mute Photo :* "..mutes.mute_photo.."\n🔹*Mute Video :* "..mutes.mute_video.."\n🔹*Mute Audio :* "..mutes.mute_audio.."\n🔹*Mute Voice :* "..mutes.mute_voice.."\n🔹*Mute Sticker :* "..mutes.mute_sticker.."\n🔹*Mute Contact :* "..mutes.mute_contact.."\n🔹*Mute Forward :* "..mutes.mute_forward.."\n🔹*Mute Location :* "..mutes.mute_location.."\n🔹*Mute Document :* "..mutes.mute_document.."\n🔹*Mute TgService :* "..mutes.mute_tgservice
+  --text = text.."\n➡️          ⬅️\n⚙*Group Mute List* : \n🔹*Mute all :* "..mutes.mute_all.."\n🔹*Mute gif :* "..mutes.mute_gif.."\n🔹*Mute text :* "..mutes.mute_text.."\n🔹*Mute inline :* "..mutes.mute_inline.."\n🔹*Mute game :* "..mutes.mute_game.."\n🔹*Mute photo :* "..mutes.mute_photo.."\n🔹*Mute video :* "..mutes.mute_video.."\n🔹*Mute audio :* "..mutes.mute_audio.."\n🔹*Mute voice :* "..mutes.mute_voice.."\n🔹*Mute sticker :* "..mutes.mute_sticker.."\n🔹*Mute contact :* "..mutes.mute_contact.."\n🔹*Mute forward :* "..mutes.mute_forward.."\n🔹*Mute location :* "..mutes.mute_location.."\n🔹*Mute document :* "..mutes.mute_document.."\n🔹*Mute TgService :* "..mutes.mute_tgservice
+  text = string.gsub(text, "yes", "✅")
+  text = string.gsub(text, "no", "⛔️")
 return text
 end
 --------Mutes---------
@@ -1101,7 +1179,7 @@ return "*Mute TgService* _Has Been Disabled_"
 end
 end
 ----------MuteList---------
-local function mutes(msg, target) 	
+--[[local function mutes(msg, target) 	
 if not is_mod(msg) then
  	return "You're Not Moderator"	
 end
@@ -1185,7 +1263,7 @@ end
 local mutes = data[tostring(target)]["mutes"] 
 local text = " *Group Mute List* : \n_Mute all : _ *"..mutes.mute_all.."*\n_Mute gif :_ *"..mutes.mute_gif.."*\n_Mute text :_ *"..mutes.mute_text.."*\n_Mute inline :_ *"..mutes.mute_inline.."*\n_Mute game :_ *"..mutes.mute_game.."*\n_Mute photo :_ *"..mutes.mute_photo.."*\n_Mute video :_ *"..mutes.mute_video.."*\n_Mute audio :_ *"..mutes.mute_audio.."*\n_Mute voice :_ *"..mutes.mute_voice.."*\n_Mute sticker :_ *"..mutes.mute_sticker.."*\n_Mute contact :_ *"..mutes.mute_contact.."*\n_Mute forward :_ *"..mutes.mute_forward.."*\n_Mute location :_ *"..mutes.mute_location.."*\n_Mute document :_ *"..mutes.mute_document.."*\n_Mute TgService :_ *"..mutes.mute_tgservice.."*"
 return text
-end
+end]]
 local function run(msg, matches)
     local data = load_data(_config.moderation.data)
    local chat = msg.chat_id_
@@ -1502,7 +1580,7 @@ end
   end
   if matches[1] == "rules" then
  if not data[tostring(chat)]['rules'] then
-     rules = "ℹ️ The Default Rules :\n1⃣ No Flood.\n2⃣ No Spam.\n3⃣ No Advertising.\n4⃣ Try to stay on topic.\n5⃣ Forbidden any racist, sexual, homophobic or gore content.\n➡️ Repeated failure to comply with these rules will cause ban.\n@BeyondTeam"
+     rules = "ℹ️ The Default Rules :\n1⃣ No Flood.\n2⃣ No Spam.\n3⃣ No Advertising.\n4⃣ Try to stay on topic.\n5⃣ Forbidden any racist, sexual, homophobic or gore content.\n➡️ Repeated failure to comply with these rules will cause ban.\n@To0fan"
         else
      rules = "*Group Rules :*\n"..data[tostring(chat)]['rules']
       end
@@ -1597,9 +1675,9 @@ end
 if matches[1] == "settings" then
 return group_settings(msg, target)
 end
-if matches[1] == "mutelist" then
+--[[if matches[1] == "mutelist" then
 return mutes(msg, target)
-end
+end]]
 if matches[1] == "modlist" then
 return modlist(msg)
 end
@@ -1609,7 +1687,7 @@ end
 
 if matches[1] == "help" and is_mod(msg) then
 text = [[
-*Beyond Bot Commands:*
+*Bot Commands:*
 
 *!setowner* `[username|id|reply]` 
 _Set Group Owner(Multi Owner)_
@@ -1677,9 +1755,6 @@ _Unpin Pinned Message_
 *!settings*
 _Show Group Settings_
 
-*!mutelist*
-_Show Mutes List_
-
 *!silentlist*
 _Show Silented Users List_
 
@@ -1738,7 +1813,7 @@ patterns ={
 "^[!/#](lock) (.*)$",
 "^[!/#](unlock) (.*)$",
 "^[!/#](settings)$",
-"^[!/#](mutelist)$",
+--"^[!/#](mutelist)$",
 "^[!/#](mute) (.*)$",
 "^[!/#](unmute) (.*)$",
 "^[!/#](link)$",
@@ -1758,4 +1833,3 @@ patterns ={
 },
 run=run
 }
---end groupmanager.lua #beyond team#
