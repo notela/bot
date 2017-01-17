@@ -36,23 +36,23 @@ end
 
 local function sudolist(msg)
 local sudo_users = _config.sudo_users
-local text = "*List of sudo users :*\n"
+local text = "📋*List of Sudo users :*\n"
 for i=1,#sudo_users do
-    text = text..i.." - "..sudo_users[i].."\n"
+    text = text..'`'..i.."`- _"..sudo_users[i].."_\n"
 end
 return text
 end
 
 local function adminlist(msg)
-		  	local text = '*List of bot admins :*\n'
+		  	local text = '📋*List of bot Admins :*\n'
 		  	local compare = text
 		  	local i = 1
 		  	for v,user in pairs(_config.admins) do
-			    text = text..i..'- '..(user[2] or '')..' ➣ ('..user[1]..')\n'
+			    text = text..'`'..i..'`- '..(user[2] or '')..' ➣ (_'..user[1]..'_)\n'
 		  	i = i +1
 		  	end
 		  	if compare == text then
-		  		text = '_No_ *admins* _available_'
+		  		text = '_No_ *Admins* _available_'
 		  	end
 		  	return text
     end
@@ -68,11 +68,11 @@ else
 user_name = data.first_name_
 end
 if is_admin1(tonumber(data.id_)) then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already an_ *admin*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is already an_ *Admin*", 0, "md")
    end
 	    table.insert(_config.admins, {tonumber(data.id_), user_name})
 		save_config()
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been promoted as_ *admin*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _has been promoted as_ *Admin*", 0, "md")
 end
 tdcli_function ({
     ID = "GetUser",
@@ -88,11 +88,11 @@ else
 user_name = data.first_name_
 end
 if not is_admin1(data.id_) then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not a_ *admin*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is not a_ *Admin*", 0, "md")
    end
 		table.remove(_config.admins, nameid)
 		save_config()
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been demoted from_ *admin*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _has been demoted from_ *Admin*", 0, "md")
 end
 tdcli_function ({
     ID = "GetUser",
@@ -107,12 +107,12 @@ else
 user_name = data.first_name_
 end
 if already_sudo(tonumber(data.id_)) then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already a_ *sudoer*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is already a_ *Sudo*", 0, "md")
    end
           table.insert(_config.sudo_users, tonumber(data.id_))
 		save_config()
      reload_plugins(true)
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is now_ *sudoer*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is now_ *Sudo*", 0, "md")
 end
 tdcli_function ({
     ID = "GetUser",
@@ -127,12 +127,12 @@ else
 user_name = data.first_name_
 end
      if not already_sudo(data.id_) then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not a_ *sudoer*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is not a_ *Sudo*", 0, "md")
    end
           table.remove(_config.sudo_users, getindex( _config.sudo_users, tonumber(data.id_)))
 		save_config()
      reload_plugins(true) 
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is no longer a_ *sudoer*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is no longer a_ *Sudo*", 0, "md")
 end
 tdcli_function ({
     ID = "GetUser",
@@ -151,38 +151,38 @@ end
 if not arg.username then return false end
     if cmd == "adminprom" then
 if is_admin1(tonumber(data.id_)) then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already an_ *admin*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is already an_ *Admin*", 0, "md")
    end
 	    table.insert(_config.admins, {tonumber(data.id_), user_name})
 		save_config()
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been promoted as_ *admin*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _has been promoted as_ *Admin*", 0, "md")
 end
     if cmd == "admindem" then
 	local nameid = index_function(tonumber(data.id_))
 if not is_admin1(data.id_) then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not a_ *admin*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is not a_ *Admin*", 0, "md")
    end
 		table.remove(_config.admins, nameid)
 		save_config()
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been demoted from_ *admin*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _has been demoted from_ *Admin*", 0, "md")
 end
     if cmd == "visudo" then
 if already_sudo(tonumber(data.id_)) then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already a_ *sudoer*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is already a_ *Sudo*", 0, "md")
    end
           table.insert(_config.sudo_users, tonumber(data.id_))
 		save_config()
      reload_plugins(true)
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is now_ *sudoer*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is now_ *Sudo*", 0, "md")
 end
     if cmd == "desudo" then
      if not already_sudo(data.id_) then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not a_ *sudoer*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is not a_ *Sudo*", 0, "md")
    end
           table.remove(_config.sudo_users, getindex( _config.sudo_users, tonumber(data.id_)))
 		save_config()
      reload_plugins(true) 
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is no longer a_ *sudoer*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is no longer a_ *Sudo*", 0, "md")
   end
 end
 
@@ -196,43 +196,43 @@ end
 if not tonumber(arg.user_id) then return false end
     if cmd == "adminprom" then
 if is_admin1(tonumber(data.id_)) then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already an_ *admin*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is already an_ *Admin*", 0, "md")
    end
 	    table.insert(_config.admins, {tonumber(data.id_), user_name})
 		save_config()
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been promoted as_ *admin*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _has been promoted as_ *Admin*", 0, "md")
 end
     if cmd == "admindem" then
 	local nameid = index_function(tonumber(data.id_))
 if not is_admin1(data.id_) then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not a_ *admin*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is not a_ *Admin*", 0, "md")
    end
 		table.remove(_config.admins, nameid)
 		save_config()
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been demoted from_ *admin*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _has been demoted from_ *Admin*", 0, "md")
 end
     if cmd == "visudo" then
 if already_sudo(tonumber(data.id_)) then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already a_ *sudoer*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is already a_ *Sudo*", 0, "md")
    end
           table.insert(_config.sudo_users, tonumber(data.id_))
 		save_config()
      reload_plugins(true)
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is now_ *sudoer*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is now_ *Sudo*", 0, "md")
 end
     if cmd == "desudo" then
      if not already_sudo(data.id_) then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not a_ *sudoer*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is not a_ *Sudo*", 0, "md")
    end
           table.remove(_config.sudo_users, getindex( _config.sudo_users, tonumber(data.id_)))
 		save_config()
      reload_plugins(true) 
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is no longer a_ *sudoer*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is no longer a_ *Sudo*", 0, "md")
   end
 end
 
 local function run(msg, matches)
- if tonumber(msg.sender_user_id_) == 157059515 then --Put Your ID
+ if tonumber(msg.sender_user_id_) == 111334847 then --Put Your ID
 if matches[1] == "visudo" then
 if not matches[2] and tonumber(msg.reply_to_message_id_) ~= 0 then
     tdcli_function ({
@@ -335,7 +335,7 @@ end
 if matches[1] == 'tosuper' and is_admin(msg) then
 local id = msg.chat_id_
 tdcli.migrateGroupChatToChannelChat(id)
-return '_Group Has Been Changed To SuperGroup!_'
+return '_Group Has Been Changed To_ `SuperGroup!`'
 end
 
 if matches[1] == 'import' and is_admin(msg) then
@@ -350,7 +350,7 @@ end
 
 if matches[1] == 'setbotusername' and is_sudo(msg) then
 tdcli.changeUsername(matches[2])
-return '_Bot Username Changed To:_ *@'..matches[2]..'*'
+return '_Bot Username Changed To:_ @'..matches[2]..''
 end
 
 if matches[1] == 'delbotusername' and is_sudo(msg) then
@@ -361,11 +361,11 @@ end
 if matches[1] == 'markread' then
 if matches[2] == 'on' then
 redis:set('markread','on')
-return '_Markread >_ *ON*'
+return '_Markread ➣_ `ON`'
 end
 if matches[2] == 'off' then
 redis:set('markread','off')
-return '_Markread >_ *OFF*'
+return '_Markread ➣_ `OFF`'
 end
 end
 
@@ -384,19 +384,19 @@ return adminlist(msg)
      if matches[1] == 'autoleave' and is_admin(msg) then
 local hash = 'auto_leave_bot'
 --Enable Auto Leave
-     if matches[2] == 'enable' then
+     if matches[2] == 'on' then
     redis:del(hash)
-   return 'Auto leave has been enabled'
+   return '*Auto leave has been* `Enabled`'
 --Disable Auto Leave
-     elseif matches[2] == 'disable' then
+     elseif matches[2] == 'off' then
     redis:set(hash, true)
-   return 'Auto leave has been disabled'
+   return '*Auto leave has been* `Disabled`'
 --Auto Leave Status
       elseif matches[2] == 'status' then
       if not redis:get(hash) then
-   return 'Auto leave is enable'
+   return '*Auto leave is* `Enable`'
        else
-   return 'Auto leave is disable'
+   return '*Auto leave is* `Disable`'
          end
       end
    end
