@@ -4,13 +4,13 @@ cd $HOME/good
 
 install() {
 	    cd tg
-		sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-		sudo apt-get install g++-4.7 c++-4.7
+		sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+		sudo apt-get install g++-4.7 -y c++-4.7 -y
 		sudo apt-get update
 		sudo apt-get upgrade
-		sudo apt-get install libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev lua-socket lua-sec lua-expat libevent-dev make unzip git redis-server autoconf g++ libjansson-dev libpython-dev expat libexpat1-dev
-		sudo apt-get install screen
-		sudo apt-get install tmux
+		sudo apt-get install libreadline-dev -y libconfig-dev -y libssl-dev -y lua5.2 -y liblua5.2-dev -y lua-socket -y lua-sec -y lua-expat -y libevent-dev -y make unzip git redis-server autoconf g++ -y libjansson-dev -y libpython-dev -y expat libexpat1-dev -y
+		sudo apt-get install screen -y
+		sudo apt-get install tmux -y
 		wget https://valtman.name/files/telegram-cli-1222
 		mv telegram-cli-1222 tgcli
 		chmod +x tgcli
