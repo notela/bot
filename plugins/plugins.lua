@@ -154,12 +154,12 @@ end
 local function run(msg, matches)
   -- Show the available plugins 
   if is_sudo(msg) then
-  if matches[1]:lower() == '!plist' or matches[1]:lower() == '/plist' or matches[1]:lower() == '#plist' then --after changed to moderator mode, set only sudo
+  if matches[1]:lower() == '!plugs' or matches[1]:lower() == '/plugs' then --after changed to moderator mode, set only sudo
     return list_all_plugins()
   end
 end
   -- Re-enable a plugin for this chat
-   if matches[1] == 'pl' then
+   if matches[1] == 'plugins' then
   if matches[2] == '+' and matches[4] == 'chat' then
       if is_momod(msg) then
     local receiver = msg.chat_id_
@@ -218,12 +218,12 @@ return {
           "!pl * : reloads all plugins." },
           },
   patterns = {
-    "^[!/#]plist$",
-    "^[!/#](pl) (+) ([%w_%.%-]+)$",
-    "^[!/#](pl) (-) ([%w_%.%-]+)$",
-    "^[!/#](pl) (+) ([%w_%.%-]+) (chat)",
-    "^[!/#](pl) (-) ([%w_%.%-]+) (chat)",
-    "^!pl? (*)$",
+    "^[!/]plugs$",
+    "^[!/](plugins) (+) ([%w_%.%-]+)$",
+    "^[!/](plugins) (-) ([%w_%.%-]+)$",
+    "^[!/](plugins) (+) ([%w_%.%-]+) (chat)",
+    "^[!/](plugins) (-) ([%w_%.%-]+) (chat)",
+    "^!plugins? (*)$",
     "^[!/](reload)$"
     },
   run = run
