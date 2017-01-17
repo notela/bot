@@ -27,17 +27,17 @@ local function list_all_plugins(only_enabled)
   local nsum = 0
   for k, v in pairs( plugins_names( )) do
     --  ✔ enabled, ❌ disabled
-    local status = '❌ '
+    local status = '⛔️ '
     nsum = nsum+1
     nact = 0
     -- Check if is enabled
     for k2, v2 in pairs(_config.enabled_plugins) do
       if v == v2..'.lua' then 
-        status = '✔ ' 
+        status = '✅ ' 
       end
       nact = nact+1
     end
-    if not only_enabled or status == '/Enable➣' then
+    if not only_enabled or status == '✅ ' then
       -- get the name
       v = string.match (v, "(.*)%.lua")
       text = text..'`'..nsum..'`.'..status..' _'..v..'_ \n'
@@ -52,23 +52,23 @@ local function list_plugins(only_enabled)
   local nsum = 0
   for k, v in pairs( plugins_names( )) do
     --  ✔ enabled, ❌ disabled
-    local status = '❌ '
+    local status = '⛔️ '
     nsum = nsum+1
     nact = 0
     -- Check if is enabled
     for k2, v2 in pairs(_config.enabled_plugins) do
       if v == v2..'.lua' then 
-        status = '✔ ' 
+        status = '✅ ' 
       end
       nact = nact+1
     end
-    if not only_enabled or status == '/Enable➣' then
+    if not only_enabled or status == '✅ ' then
       -- get the name
       v = string.match (v, "(.*)%.lua")
      -- text = text..v..'  '..status..'\n'
     end
   end
-  local text = text.."\nAll Plugins Reloaded\n\n"..nact.." Plugins Enabled\n"..nsum.." Plugins Installed\n\n@To0fan"
+  local text = text.."\n_Plugins Reloaded_\n\n`"..nact.."` *Plugins Enabled*\n`"..nsum.."` *Plugins Installed*\n\n@To0fan"
 return text
 end
 
@@ -152,10 +152,11 @@ local function reenable_plugin_on_chat(receiver, plugin)
 end
 
 local function run(msg, matches)
+	if not is_sudo(msg) then return end
   -- Show the available plugins 
   if is_sudo(msg) then
-  if matches[1]:lower() == '!plugs' or matches[1]:lower() == '/plugs' or matches[1]:lower() == '#plugs' then --after changed to moderator mode, set only sudo
-    return list_all_plugins()
+  if matches[1]:lower() == 'plugs' then --after changed to moderator mode, set only sudo
+	return list_all_plugins()
   end
 end
   -- Re-enable a plugin for this chat
@@ -194,11 +195,12 @@ end
     print("disable: "..matches[3])
     return disable_plugin(matches[3])
   end
-end
-  -- Reload all the plugins!
-  if matches[1] == '*' and is_sudo(msg) then --after changed to moderator mode, set only sudo
+    if matches[2] == '*' and is_sudo(msg) then --after changed to moderator mode, set only sudo
     return reload_plugins(true)
   end
+end
+  -- Reload all the plugins!
+
   if matches[1]:lower() == 'reload' and is_sudo(msg) then --after changed to moderator mode, set only sudo
     return reload_plugins(true)
   end
@@ -218,12 +220,12 @@ return {
           "!plugins * : reloads all plugins." },
           },
   patterns = {
-    "^[!/#]plugs$",
+    "^[!/](plugs)$",
     "^[!/](plugins) (+) ([%w_%.%-]+)$",
     "^[!/](plugins) (-) ([%w_%.%-]+)$",
     "^[!/](plugins) (+) ([%w_%.%-]+) (chat)",
     "^[!/](plugins) (-) ([%w_%.%-]+) (chat)",
-    "^!plugs? (*)$",
+    "^[!/](plugins) (*)$",
     "^[!/](reload)$"
     },
   run = run
