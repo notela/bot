@@ -1,7 +1,7 @@
 tdcli = dofile('./tg/tdcli.lua')
 serpent = (loadfile "./libs/serpent.lua")()
 feedparser = (loadfile "./libs/feedparser.lua")()
-our_id = 265541133 -- Put Here Your Bot ID
+our_id = 246110863 -- Put Here Your Bot ID
 --ایدی رباتتونو اینجا بزارید
 json = (loadfile "./libs/JSON.lua")()
 mimetype = (loadfile "./libs/mimetype.lua")()
@@ -83,8 +83,7 @@ function create_config( )
     admins = {},
     disabled_channels = {},
     moderation = {data = './data/moderation.json'},
-    info_text = [[Support & Coding by 		
-@To0fan]],
+    info_text = [[*Support & Coding by* @To0fan]],
   }
   serialize_to_file(config, './data/config.lua')
   print ('saved config into conf.lua')
