@@ -1,4 +1,4 @@
---Begin msg_checks.lua By @SoLiD
+
 local TIME_CHECK = 2
 local function pre_process(msg)
 local data = load_data(_config.moderation.data)
@@ -10,15 +10,15 @@ local auto_leave = 'auto_leave_bot'
 local data = load_data(_config.moderation.data)
  msg.text = msg.content_.text_
   local groups = 'groups'
+   if is_channel or is_chat then
     if msg.text then
   if msg.text:match("(.*)") then
     if not data[tostring(chat)] and not redis:get(auto_leave) and not is_admin(msg) then
-  tdcli.sendMessage(msg.chat_id_, "", 0, "_This chat is not an my_ *group*", 0, "md")
+  tdcli.sendMessage(msg.chat_id_, "", 0, "*This is not one of my* _Groups_", 0, "md")
   tdcli.changeChatMemberStatus(chat, our_id, 'Left')
       end
    end
 end
-   if is_channel or is_chat then
     if data[tostring(chat)] and data[tostring(chat)]['mutes'] then
 		mutes = data[tostring(chat)]['mutes']
 	else
@@ -357,7 +357,7 @@ return
 else
    tdcli.deleteMessages(msg.chat_id_, {[0] = msg.id_})
     kick_user(user, chat)
-  tdcli.sendMessage(msg.chat_id_, msg.id_, 0, "_User_ `[ "..user.." ]` _has been_ *kicked* _because of_ *flooding*", 0, "md")
+  tdcli.sendMessage(msg.chat_id_, msg.id_, 0, "*User* `[ "..user.." ]` *has been* `kicked` *for* `Flooding`", 0, "md")
 redis:setex('sender:'..user..':flood', 30, true)
       end
     end

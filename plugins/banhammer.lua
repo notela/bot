@@ -15,11 +15,11 @@ else
 user_name = data.first_name_
 end
 if is_banned(data.id_, arg.chat_id) then
-		tdcli.sendMessage(arg.chat_id, arg.msg_id, 0, "_User_ "..user_name.." *[ "..data.id_.." ]* _is banned_", 0, "md")
+		tdcli.sendMessage(arg.chat_id, arg.msg_id, 0, "*User* "..user_name.." [ `"..data.id_.."` ] *is Banned*", 0, "md")
 kick_user(data.id_, arg.chat_id)
 end
 if is_gbanned(data.id_) then
-		tdcli.sendMessage(arg.chat_id, arg.msg_id, 0, "_User_ "..user_name.." *[ "..data.id_.." ]* _is hammered_", 0, "md")
+		tdcli.sendMessage(arg.chat_id, arg.msg_id, 0, "*User* "..user_name.." [ `"..data.id_.."` ] *is hammered*", 0, "md")
 kick_user(data.id_, arg.chat_id)
      end
 	end
@@ -36,14 +36,14 @@ kick_user(data.id_, arg.chat_id)
     	}, check_newmember, {chat_id=chat,msg_id=msg.id_,user_id=user,msg=msg})
 	end
 if is_silent_user(user, chat) then
-td.deleteMessages(msg.chat_id_, {[0] = msg.id_})
+tdcli.deleteMessages(msg.chat_id_, {[0] = msg.id_})
 end
 if is_banned(user, chat) then
-td.deleteMessages(msg.chat_id_, {[0] = msg.id_})
+tdcli.deleteMessages(msg.chat_id_, {[0] = msg.id_})
     kick_user(user, chat)
    end
 if is_gbanned(user) then
-td.deleteMessages(msg.chat_id_, {[0] = msg.id_})
+tdcli.deleteMessages(msg.chat_id_, {[0] = msg.id_})
     kick_user(user, chat)
    end
 end
@@ -59,15 +59,15 @@ else
 user_name = data.first_name_
 end
    if is_mod1(arg.chat_id, data.id_) then
-  return tdcli.sendMessage(arg.chat_id, "", 0, "_You can't ban_ *mods,owners and bot admins*", 0, "md")
+  return tdcli.sendMessage(arg.chat_id, "", 0, "*You can't ban* _Moderators_ *&* _Owners_ *and* _Bot admins_", 0, "md")
      end
 if administration[tostring(arg.chat_id)]['banned'][tostring(data.id_)] then
-     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already_ *banned*", 0, "md")
+     return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *is already* _Banned_", 0, "md")
    end
 administration[tostring(arg.chat_id)]['banned'][tostring(data.id_)] = user_name
     save_data(_config.moderation.data, administration)
    kick_user(data.id_, arg.chat_id)
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been_ *banned*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *has been* _Banned_", 0, "md")
 end
 tdcli_function ({
     ID = "GetUser",
@@ -83,11 +83,11 @@ else
 user_name = data.first_name_
 end
 if not administration[tostring(arg.chat_id)]['banned'][tostring(data.id_)] then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not_ *banned*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *is not* _Banned_", 0, "md")
    end
 administration[tostring(arg.chat_id)]['banned'][tostring(data.id_)] = nil
     save_data(_config.moderation.data, administration)
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been_ *unbanned*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *has been* _unBanned_", 0, "md")
 end
 tdcli_function ({
     ID = "GetUser",
@@ -103,14 +103,14 @@ else
 user_name = data.first_name_
 end
    if is_mod1(arg.chat_id, data.id_) then
-  return tdcli.sendMessage(arg.chat_id, "", 0, "_You can't silent_ *mods,owners and bot admins*", 0, "md")
+  return tdcli.sendMessage(arg.chat_id, "", 0, "*You can't silent* _Moderators , Owners_ *and* _Bot admins_", 0, "md")
      end
 if administration[tostring(arg.chat_id)]['is_silent_users'][tostring(data.id_)] then
-     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already_ *silent*", 0, "md")
+     return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *is already* _Silent_", 0, "md")
    end
 administration[tostring(arg.chat_id)]['is_silent_users'][tostring(data.id_)] = user_name
     save_data(_config.moderation.data, administration)
-     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _added to_ *silent users list*", 0, "md")
+     return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *added to* _Silent list_", 0, "md")
 end
 tdcli_function ({
     ID = "GetUser",
@@ -126,11 +126,11 @@ else
 user_name = data.first_name_
 end
 if not administration[tostring(arg.chat_id)]['is_silent_users'][tostring(data.id_)] then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not_ *silent*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *is not* _Silent_", 0, "md")
    end
 administration[tostring(arg.chat_id)]['is_silent_users'][tostring(data.id_)] = nil
     save_data(_config.moderation.data, administration)
-     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _removed from_ *silent users list*", 0, "md")
+     return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *removed from* _Silent list_", 0, "md")
 end
 tdcli_function ({
     ID = "GetUser",
@@ -150,15 +150,15 @@ end
     save_data(_config.moderation.data, administration)
     end
    if is_admin1(data.id_) then
-  return tdcli.sendMessage(arg.chat_id, "", 0, "_You can't_ *globally banned* _other admins_", 0, "md")
+  return tdcli.sendMessage(arg.chat_id, "", 0, "*You can't* _Globally Banned_ *other admins*", 0, "md")
      end
 if is_gbanned(data.id_) then
-     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already_ *globally banned*", 0, "md")
+     return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *is already* _Globally Banned_", 0, "md")
    end
   administration['gban_users'][tostring(data.id_)] = user_name
     save_data(_config.moderation.data, administration)
    kick_user(data.id_, arg.chat_id)
-     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been_ *globally banned*", 0, "md")
+     return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *has been* _Globally Banned_", 0, "md")
 end
 tdcli_function ({
     ID = "GetUser",
@@ -178,11 +178,11 @@ end
     save_data(_config.moderation.data, administration)
     end
 if not is_gbanned(data.id_) then
-     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not_ *globally banned*", 0, "md")
+     return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *is not* _Globally Banned_", 0, "md")
    end
   administration['gban_users'][tostring(data.id_)] = nil
     save_data(_config.moderation.data, administration)
-     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been_ *globally unbanned*", 0, "md")
+     return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *has been* _Globally unBanned_", 0, "md")
 end
 tdcli_function ({
     ID = "GetUser",
@@ -191,7 +191,7 @@ tdcli_function ({
   end
   if cmd == "kick" then
    if is_mod1(data.chat_id_, data.sender_user_id_) then
-  return tdcli.sendMessage(arg.chat_id, "", 0, "_You can't kick_ *mods,owners and bot admins*", 0, "md")
+  return tdcli.sendMessage(arg.chat_id, "", 0, "*You can't kick* _Moderators , Owners_ *and* _Bot admins_", 0, "md")
      else
      kick_user(data.sender_user_id_, data.chat_id_)
     end
@@ -208,42 +208,42 @@ end
 if not arg.username then return false end
   if cmd == "ban" then
    if is_mod1(arg.chat_id, data.id_) then
-  return tdcli.sendMessage(arg.chat_id, "", 0, "_You can't ban_ *mods,owners and bot admins*", 0, "md")
+  return tdcli.sendMessage(arg.chat_id, "", 0, "*You can't ban* _Moderators , Owners_ *and* _Bot admins_", 0, "md")
      end
 if administration[tostring(arg.chat_id)]['banned'][tostring(data.id_)] then
-     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already_ *banned*", 0, "md")
+     return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *is already* _Banned_", 0, "md")
    end
 administration[tostring(arg.chat_id)]['banned'][tostring(data.id_)] = user_name
     save_data(_config.moderation.data, administration)
    kick_user(data.id_, arg.chat_id)
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been_ *banned*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *has been* _Banned_", 0, "md")
 end
    if cmd == "unban" then
 if not administration[tostring(arg.chat_id)]['banned'][tostring(data.id_)] then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not_ *banned*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *is not* _Banned_", 0, "md")
    end
 administration[tostring(arg.chat_id)]['banned'][tostring(data.id_)] = nil
     save_data(_config.moderation.data, administration)
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been_ *unbanned*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *has been* _unBanned_", 0, "md")
 end
   if cmd == "silent" then
    if is_mod1(arg.chat_id, data.id_) then
-  return tdcli.sendMessage(arg.chat_id, "", 0, "_You can't silent_ *mods,owners and bot admins*", 0, "md")
+  return tdcli.sendMessage(arg.chat_id, "", 0, "*You can't silent* _Moderators , Owners_ *and* _Bot admins*", 0, "md")
      end
 if administration[tostring(arg.chat_id)]['is_silent_users'][tostring(data.id_)] then
-     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already_ *silent*", 0, "md")
+     return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *is already* _Silent_", 0, "md")
    end
 administration[tostring(arg.chat_id)]['is_silent_users'][tostring(data.id_)] = user_name
     save_data(_config.moderation.data, administration)
-     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _added to_ *silent users list*", 0, "md")
+     return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *added to* _Silent list_", 0, "md")
 end
   if cmd == "unsilent" then
 if not administration[tostring(arg.chat_id)]['is_silent_users'][tostring(data.id_)] then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not_ *silent*", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *is not* _Silent_", 0, "md")
    end
 administration[tostring(arg.chat_id)]['is_silent_users'][tostring(data.id_)] = nil
     save_data(_config.moderation.data, administration)
-     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _removed from_ *silent users list*", 0, "md")
+     return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *removed from* _Silent list_", 0, "md")
 end
   if cmd == "banall" then
   if not administration['gban_users'] then
@@ -251,15 +251,15 @@ end
     save_data(_config.moderation.data, administration)
     end
    if is_admin1(data.id_) then
-  return tdcli.sendMessage(arg.chat_id, "", 0, "_You can't_ *globally banned* _other admins_", 0, "md")
+  return tdcli.sendMessage(arg.chat_id, "", 0, "*You can't* _Globally Banned_ *other admins*", 0, "md")
      end
 if is_gbanned(data.id_) then
-     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is already_ *globally banned*", 0, "md")
+     return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *is already* _Globally Banned_", 0, "md")
    end
   administration['gban_users'][tostring(data.id_)] = user_name
     save_data(_config.moderation.data, administration)
    kick_user(data.id_, arg.chat_id)
-     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been_ *globally banned*", 0, "md")
+     return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *has been* _Globally Banned_", 0, "md")
 end
   if cmd == "unbanall" then
   if not administration['gban_users'] then
@@ -267,15 +267,15 @@ end
     save_data(_config.moderation.data, administration)
     end
 if not is_gbanned(data.id_) then
-     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _is not_ *globally banned*", 0, "md")
+     return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *is not* _Globally Banned_", 0, "md")
    end
   administration['gban_users'][tostring(data.id_)] = nil
     save_data(_config.moderation.data, administration)
-     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." *"..data.id_.."* _has been_ *globally unbanned*", 0, "md")
+     return tdcli.sendMessage(arg.chat_id, "", 0, "*User* "..user_name.." [`"..data.id_.."`] *has been* _Globally unBanned_", 0, "md")
 end
   if cmd == "kick" then
    if is_mod1(arg.chat_id, data.id_) then
-  return tdcli.sendMessage(arg.chat_id, "", 0, "_You can't kick_ *mods,owners and bot admins*", 0, "md")
+  return tdcli.sendMessage(arg.chat_id, "", 0, "*You can't kick* _Moderators , Owners_ *and* _Bot admins_", 0, "md")
      else
      kick_user(data.id_, arg.chat_id)
     end
@@ -295,7 +295,7 @@ if not matches[2] and tonumber(msg.reply_to_message_id_) ~= 0 then
 end
   if matches[2] and string.match(matches[2], '^%d+$') then
    if is_mod1(msg.chat_id_, matches[2]) then
-     tdcli.sendMessage(msg.chat_id_, "", 0, "_You can't kick mods,owners or bot admins_", 0, "md")
+     tdcli.sendMessage(msg.chat_id_, "", 0, "*You can't kick* _Moderators , Owners_ *and* _Bot admins_", 0, "md")
      else
 kick_user(matches[2], msg.chat_id_)
       end
@@ -317,15 +317,15 @@ if not matches[2] and tonumber(msg.reply_to_message_id_) ~= 0 then
 end
   if matches[2] and string.match(matches[2], '^%d+$') then
    if is_admin1(matches[2]) then
-    return tdcli.sendMessage(msg.chat_id_, "", 0, "_You can't globally banned other admins_", 0, "md")
+    return tdcli.sendMessage(msg.chat_id_, "", 0, "_You can't Globally Banned other admins_", 0, "md")
      end
    if is_gbanned(matches[2]) then
-  return tdcli.sendMessage(msg.chat_id_, "", 0, "_User "..matches[2].." is already globally banned_", 0, "md")
+  return tdcli.sendMessage(msg.chat_id_, "", 0, "*User* [`"..matches[2].."`] *is already* _Globally Banned_", 0, "md")
      end
   data['gban_users'][tostring(matches[2])] = ""
     save_data(_config.moderation.data, data)
 kick_user(matches[2], msg.chat_id_)
- return tdcli.sendMessage(msg.chat_id_, msg.id_, 0, "_User "..matches[2].." has been globally banned_", 0, "md")
+ return tdcli.sendMessage(msg.chat_id_, msg.id_, 0, "*User* [`"..matches[2].."`] *has been* _Globally Banned_", 0, "md")
    end
   if matches[2] and not string.match(matches[2], '^%d+$') then
     tdcli_function ({
@@ -344,11 +344,11 @@ if not matches[2] and tonumber(msg.reply_to_message_id_) ~= 0 then
 end
   if matches[2] and string.match(matches[2], '^%d+$') then
    if not is_gbanned(matches[2]) then
-   return tdcli.sendMessage(msg.chat_id_, "", 0, "_User "..matches[2].." is not globally banned_", 0, "md")
+   return tdcli.sendMessage(msg.chat_id_, "", 0, "*User* [`"..matches[2].."`] *is not* _Globally Banned_", 0, "md")
      end
   data['gban_users'][tostring(matches[2])] = nil
     save_data(_config.moderation.data, data)
-return tdcli.sendMessage(msg.chat_id_, msg.id_, 0, "_User "..matches[2].." has been globally unbanned_", 0, "md")
+return tdcli.sendMessage(msg.chat_id_, msg.id_, 0, "*User* [`"..matches[2].."`] *has been* _Globally unBanned_", 0, "md")
    end
   if matches[2] and not string.match(matches[2], '^%d+$') then
     tdcli_function ({
@@ -367,15 +367,15 @@ if not matches[2] and tonumber(msg.reply_to_message_id_) ~= 0 then
 end
   if matches[2] and string.match(matches[2], '^%d+$') then
    if is_mod1(msg.chat_id_, matches[2]) then
-    return tdcli.sendMessage(msg.chat_id_, "", 0, "_You can't ban mods,owners or bot admins_", 0, "md")
+    return tdcli.sendMessage(msg.chat_id_, "", 0, "*You can't ban* _Moderators , Owners_ *and* _Bot admins_", 0, "md")
      end
    if is_banned(matches[2], msg.chat_id_) then
-  return tdcli.sendMessage(msg.chat_id_, "", 0, "_User "..matches[2].." is already banned_", 0, "md")
+  return tdcli.sendMessage(msg.chat_id_, "", 0, "*User* [`"..matches[2].."`] *is already* _Banned_", 0, "md")
      end
 data[tostring(chat)]['banned'][tostring(matches[2])] = ""
     save_data(_config.moderation.data, data)
 kick_user(matches[2], msg.chat_id_)
- return tdcli.sendMessage(msg.chat_id_, msg.id_, 0, "_User "..matches[2].." has been banned_", 0, "md")
+ return tdcli.sendMessage(msg.chat_id_, msg.id_, 0, "*User* [`"..matches[2].."`] *has been* _Banned_", 0, "md")
    end
   if matches[2] and not string.match(matches[2], '^%d+$') then
      tdcli_function ({
@@ -394,11 +394,11 @@ if not matches[2] and tonumber(msg.reply_to_message_id_) ~= 0 then
 end
   if matches[2] and string.match(matches[2], '^%d+$') then
    if not is_banned(matches[2], msg.chat_id_) then
-   return tdcli.sendMessage(msg.chat_id_, "", 0, "_User "..matches[2].." is not banned_", 0, "md")
+   return tdcli.sendMessage(msg.chat_id_, "", 0, "*User* [`"..matches[2].."`] *is not* _Banned_", 0, "md")
      end
 data[tostring(chat)]['banned'][tostring(matches[2])] = nil
     save_data(_config.moderation.data, data)
-return tdcli.sendMessage(msg.chat_id_, msg.id_, 0, "_User "..matches[2].." has been unbanned_", 0, "md")
+return tdcli.sendMessage(msg.chat_id_, msg.id_, 0, "*User* [`"..matches[2].."`] *has been* _unBanned_", 0, "md")
    end
   if matches[2] and not string.match(matches[2], '^%d+$') then
     tdcli_function ({
@@ -417,14 +417,14 @@ if not matches[2] and tonumber(msg.reply_to_message_id_) ~= 0 then
 end
   if matches[2] and string.match(matches[2], '^%d+$') then
    if is_mod1(msg.chat_id_, matches[2]) then
-   return tdcli.sendMessage(msg.chat_id_, "", 0, "_You can't silent mods,leaders or bot admins_", 0, "md")
+   return tdcli.sendMessage(msg.chat_id_, "", 0, "*You can't silent* _Modertors , Owners_ *and* _Bot admins_", 0, "md")
      end
    if is_silent_user(matches[2], chat) then
-   return tdcli.sendMessage(msg.chat_id_, "", 0, "_User "..matches[2].." is already silent_", 0, "md")
+   return tdcli.sendMessage(msg.chat_id_, "", 0, "*User* [`"..matches[2].."`] *is already* _Silent_", 0, "md")
      end
 data[tostring(chat)]['is_silent_users'][tostring(matches[2])] = ""
     save_data(_config.moderation.data, data)
- return tdcli.sendMessage(msg.chat_id_, msg.id_, 0, "_User "..matches[2].." added to silent users list_", 0, "md")
+ return tdcli.sendMessage(msg.chat_id_, msg.id_, 0, "*User* [`"..matches[2].."`] *added to* _Silent list_", 0, "md")
    end
   if matches[2] and not string.match(matches[2], '^%d+$') then
     tdcli_function ({
@@ -443,11 +443,11 @@ if not matches[2] and tonumber(msg.reply_to_message_id_) ~= 0 then
 end
   if matches[2] and string.match(matches[2], '^%d+$') then
    if not is_silent_user(matches[2], chat) then
-     return tdcli.sendMessage(msg.chat_id_, "", 0, "_User "..matches[2].." is not silent_", 0, "md")
+     return tdcli.sendMessage(msg.chat_id_, "", 0, "*User* [`"..matches[2].."`] *is not* _Silent_", 0, "md")
      end
 data[tostring(chat)]['is_silent_users'][tostring(matches[2])] = nil
     save_data(_config.moderation.data, data)
- return tdcli.sendMessage(msg.chat_id_, msg.id_, 0, "_User "..matches[2].." removed from silent users list_", 0, "md")
+ return tdcli.sendMessage(msg.chat_id_, msg.id_, 0, "*User* [`"..matches[2].."`] *removed from* _Silent list_", 0, "md")
    end
   if matches[2] and not string.match(matches[2], '^%d+$') then
    tdcli_function ({
@@ -465,29 +465,29 @@ data[tostring(chat)]['is_silent_users'][tostring(matches[2])] = nil
 					data[tostring(chat)]['banned'][tostring(k)] = nil
 					save_data(_config.moderation.data, data)
 				end
-				return "_All_ *banned* _users has been unbanned_"
+				return "*All* _Banned_ *users has been unBanned*"
 			end
 			if matches[2] == 'silentlist' then
 				if next(data[tostring(chat)]['is_silent_users']) == nil then
-					return "_No_ *silent* _users in this group_"
+					return "*No* _Silent_ *users in this Group*"
 				end
 				for k,v in pairs(data[tostring(chat)]['is_silent_users']) do
 					data[tostring(chat)]['is_silent_users'][tostring(k)] = nil
 					save_data(_config.moderation.data, data)
 				    end
-				return "*Silent list* _has been cleaned_"
+				return "_Silent list_ *has been cleaned*"
 			    end
         end
 		if matches[1]:lower() == 'clean' and is_sudo(msg) then
 			if matches[2] == 'gbans' then
 				if next(data['gban_users']) == nil then
-					return "_No_ *globally banned* _users available_"
+					return "*No* _Globally Banned_ *users available*"
 				end
 				for k,v in pairs(data['gban_users']) do
 					data['gban_users'][tostring(k)] = nil
 					save_data(_config.moderation.data, data)
 				end
-				return "_All_ *globally banned* _users has been unbanned_"
+				return "*All* _Globally Banned_ *users has been unBanned*"
 			end
      end
 if matches[1] == "gbanlist" and is_admin(msg) then

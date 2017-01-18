@@ -252,9 +252,9 @@ end
     return tdcli.sendMessage(arg.chat_id, "", 0, "*"..data.id_.."*", 0, "md")
 end
     if cmd == "res" then
-    local text = "*Result for* [ `".. data.type_.user_.username_ .."` ] :\n"
-    .. "_".. data.title_ .."_\n"
-    .. " [`".. data.id_ .."`]"
+    local text = "🔹*Information* [ @".. data.type_.user_.username_ .." ]:\n"
+    .. "✨*Name:* _".. data.title_ .."_\n"
+    .. "✨*ID:* [`".. data.id_ .."`]"
        return tdcli.sendMessage(arg.chat_id, 0, 1, text, 1)
    end
 end
@@ -304,13 +304,13 @@ administration[tostring(arg.chat_id)]['mods'][tostring(data.id_)] = nil
     save_data(_config.moderation.data, administration)
     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _has been_ *Demoted*", 0, "md")
 end
-    if cmd == "whois" then
+    if cmd == "uid" then
 if data.username_ then
 username = '@'..data.username_
 else
 username = '_not found_'
 end
-       return tdcli.sendMessage(arg.chat_id, 0, 1, '*Info for* [ _'..data.id_..'_ ] :\n*UserName:* '..username..'\n*Name:* '..data.first_name_, 1)
+       return tdcli.sendMessage(arg.chat_id, 0, 1, '🔹*Info for* [ `'..data.id_..'` ] :\n✨*UserName:* '..username..'\n✨*Name:* _'..data.first_name_..'_', 1)
    end
  else
   return tdcli.sendMessage(arg.chat_id, "", 0, "_User not found!_", 0, "md")
@@ -750,12 +750,12 @@ end
 
 local mute_all = data[tostring(target)]["mutes"]["mute_all"] 
 if mute_all == "yes" then
- return "*Mute all* _Is Already Enabled_"
+ return "*Mute all Is Already* `Enabled`"
 else
  data[tostring(target)]["mutes"]["mute_all"] = "yes" 
 save_data(_config.moderation.data, data) 
  return 
-"*MuteAll* _Has Been Enabled_"
+"*MuteAll Has Been* `Enabled`"
 end
 end
 
@@ -765,11 +765,11 @@ return "_You're Not_ *Moderator*"
 end 
 local mute_all = data[tostring(target)]["mutes"]["mute_all"]
  if mute_all == "no" then
-return "*Mute All* _Is Already Disabled_" 
+return "*Mute All Is Already* `Disabled`" 
 else 
 data[tostring(target)]["mutes"]["mute_all"] = "no"
  save_data(_config.moderation.data, data) 
-return "*Mute All* _Has Been Disabled_" 
+return "*Mute All Has Been* `Disabled`" 
 end
 end
 ---------------Mute Gif-------------------
@@ -780,11 +780,11 @@ end
 
 local mute_gif = data[tostring(target)]["mutes"]["mute_gif"] 
 if mute_gif == "yes" then
- return "*Mute Gif* _Is Already Enabled_"
+ return "*Mute Gif Is Already* `Enabled`"
 else
  data[tostring(target)]["mutes"]["mute_gif"] = "yes" 
 save_data(_config.moderation.data, data) 
- return "*Mute Gif* _Has Been Enabled_"
+ return "*Mute Gif Has Been* `Enabled`"
 end
 end
 
@@ -794,11 +794,11 @@ return "_You're Not_ *Moderator*"
 end 
 local mute_gif = data[tostring(target)]["mutes"]["mute_gif"]
  if mute_gif == "no" then
-return "*Mute Gif* _Is Already Disabled_" 
+return "*Mute Gif Is Already* `Disabled`" 
 else 
 data[tostring(target)]["mutes"]["mute_gif"] = "no"
  save_data(_config.moderation.data, data) 
-return "*Mute Gif* _Has Been Disabled_" 
+return "*Mute Gif Has Been* `Disabled`" 
 end
 end
 ---------------Mute Game-------------------
@@ -809,11 +809,11 @@ end
 
 local mute_game = data[tostring(target)]["mutes"]["mute_game"] 
 if mute_game == "yes" then
- return "*Mute Game* _Is Already Enabled_"
+ return "*Mute Game Is Already* `Enabled`"
 else
  data[tostring(target)]["mutes"]["mute_game"] = "yes" 
 save_data(_config.moderation.data, data) 
- return "*Mute Game* _Has Been Enabled_"
+ return "*Mute Game Has Been* `Enabled`"
 end
 end
 
@@ -823,11 +823,11 @@ return "_You're Not_ *Moderator*"
 end 
 local mute_game = data[tostring(target)]["mutes"]["mute_game"]
  if mute_game == "no" then
-return "*Mute Game* _Is Already Disabled_" 
+return "*Mute Game Is Already* `Disabled`" 
 else 
 data[tostring(target)]["mutes"]["mute_game"] = "no"
  save_data(_config.moderation.data, data) 
-return "*Mute Game* _Has Been Disabled_" 
+return "*Mute Game Has Been* `Disabled`" 
 end
 end
 ---------------Mute Inline-------------------
@@ -838,11 +838,11 @@ end
 
 local mute_inline = data[tostring(target)]["mutes"]["mute_inline"] 
 if mute_inline == "yes" then
- return "*Mute Inline* _Is Already Enabled_"
+ return "*Mute Inline Is Already* `Enabled`"
 else
  data[tostring(target)]["mutes"]["mute_inline"] = "yes" 
 save_data(_config.moderation.data, data) 
- return "*Mute Inline* _Has Been Enabled_"
+ return "*Mute Inline Has Been* `Enabled`"
 end
 end
 
@@ -852,11 +852,11 @@ return "_You're Not_ *Moderator*"
 end 
 local mute_inline = data[tostring(target)]["mutes"]["mute_inline"]
  if mute_inline == "no" then
-return "*Mute Inline* _Is Already Disabled_" 
+return "*Mute Inline Is Already* `Disabled`" 
 else 
 data[tostring(target)]["mutes"]["mute_inline"] = "no"
  save_data(_config.moderation.data, data) 
-return "*Mute Inline* _Has Been Disabled_" 
+return "*Mute Inline Has Been* `Disabled`" 
 end
 end
 ---------------Mute Text-------------------
@@ -867,11 +867,11 @@ end
 
 local mute_text = data[tostring(target)]["mutes"]["mute_text"] 
 if mute_text == "yes" then
- return "*Mute Text* _Is Already Enabled_"
+ return "*Mute Text Is Already* `Enabled`"
 else
  data[tostring(target)]["mutes"]["mute_text"] = "yes" 
 save_data(_config.moderation.data, data) 
- return "*Mute Text* _Has Been Enabled_"
+ return "*Mute Text Has Been* `Enabled`"
 end
 end
 
@@ -881,11 +881,11 @@ return "_You're Not_ *Moderator*"
 end 
 local mute_text = data[tostring(target)]["mutes"]["mute_text"]
  if mute_text == "no" then
-return "*Mute Text* _Is Already Disabled_" 
+return "*Mute Text Is Already* `Disabled`" 
 else 
 data[tostring(target)]["mutes"]["mute_text"] = "no"
  save_data(_config.moderation.data, data) 
-return "*Mute Text* _Has Been Disabled_" 
+return "*Mute Text Has Been* `Disabled`" 
 end
 end
 ---------------Mute photo-------------------
@@ -896,11 +896,11 @@ end
 
 local mute_photo = data[tostring(target)]["mutes"]["mute_photo"] 
 if mute_photo == "yes" then
- return "*Mute Photo* _Is Already Enabled_"
+ return "*Mute Photo Is Already* `Enabled`"
 else
  data[tostring(target)]["mutes"]["mute_photo"] = "yes" 
 save_data(_config.moderation.data, data) 
- return "*Mute Photo* _Has Been Enabled_"
+ return "*Mute Photo Has Been* `Enabled`"
 end
 end
 
@@ -910,11 +910,11 @@ return "_You're Not_ *Moderator*"
 end 
 local mute_photo = data[tostring(target)]["mutes"]["mute_photo"]
  if mute_photo == "no" then
-return "*Mute Photo* _Is Already Disabled_" 
+return "*Mute Photo Is Already* `Disabled`" 
 else 
 data[tostring(target)]["mutes"]["mute_photo"] = "no"
  save_data(_config.moderation.data, data) 
-return "*Mute Photo* _Has Been Disabled_" 
+return "*Mute Photo Has Been* `Disabled`" 
 end
 end
 ---------------Mute Video-------------------
@@ -925,11 +925,11 @@ end
 
 local mute_video = data[tostring(target)]["mutes"]["mute_video"] 
 if mute_video == "yes" then
- return "*Mute Video* _Is Already Enabled_"
+ return "*Mute Video Is Already* `Enabled`"
 else
  data[tostring(target)]["mutes"]["mute_video"] = "yes" 
 save_data(_config.moderation.data, data) 
- return "*Mute Video* _Has Been Enabled_"
+ return "*Mute Video Has Been* `Enabled`"
 end
 end
 
@@ -939,11 +939,11 @@ return "_You're Not_ *Moderator*"
 end 
 local mute_video = data[tostring(target)]["mutes"]["mute_video"]
  if mute_video == "no" then
-return "*Mute Video* _Is Already Disabled_" 
+return "*Mute Video Is Already* `Disabled`" 
 else 
 data[tostring(target)]["mutes"]["mute_video"] = "no"
  save_data(_config.moderation.data, data) 
-return "*Mute Video* _Has Been Disabled_" 
+return "*Mute Video Has Been* `Disabled`" 
 end
 end
 ---------------Mute Audio-------------------
@@ -954,11 +954,11 @@ end
 
 local mute_audio = data[tostring(target)]["mutes"]["mute_audio"] 
 if mute_audio == "yes" then
- return "*Mute Audio* _Is Already Enabled_"
+ return "*Mute Audio Is Already* `Enabled`"
 else
  data[tostring(target)]["mutes"]["mute_audio"] = "yes" 
 save_data(_config.moderation.data, data) 
- return "*Mute Audio* _Has Been Enabled_"
+ return "*Mute Audio Has Been* `Enabled`"
 end
 end
 
@@ -968,11 +968,11 @@ return "_You're Not_ *Moderator*"
 end 
 local mute_audio = data[tostring(target)]["mutes"]["mute_audio"]
  if mute_audio == "no" then
-return "*Mute Audio* _Is Already Disabled_" 
+return "*Mute Audio Is Already* `Disabled`" 
 else 
 data[tostring(target)]["mutes"]["mute_audio"] = "no"
  save_data(_config.moderation.data, data) 
-return "*Mute Audio* _Has Been Disabled_" 
+return "*Mute Audio Has Been* `Disabled`" 
 end
 end
 ---------------Mute Voice-------------------
@@ -983,11 +983,11 @@ end
 
 local mute_voice = data[tostring(target)]["mutes"]["mute_voice"] 
 if mute_voice == "yes" then
- return "*Mute Voice* _Is Already Enabled_"
+ return "*Mute Voice Is Already* `Enabled`"
 else
  data[tostring(target)]["mutes"]["mute_voice"] = "yes" 
 save_data(_config.moderation.data, data) 
- return "*Mute Voice* _Has Been Enabled_"
+ return "*Mute Voice Has Been* `Enabled`"
 end
 end
 
@@ -997,11 +997,11 @@ return "_You're Not_ *Moderator*"
 end 
 local mute_voice = data[tostring(target)]["mutes"]["mute_voice"]
  if mute_voice == "no" then
-return "*Mute Voice* _Is Already Disabled_" 
+return "*Mute Voice Is Already* `Disabled`" 
 else 
 data[tostring(target)]["mutes"]["mute_voice"] = "no"
  save_data(_config.moderation.data, data) 
-return "*Mute Voice* _Has Been Disabled_" 
+return "*Mute Voice Has Been* `Disabled`" 
 end
 end
 ---------------Mute Sticker-------------------
@@ -1012,11 +1012,11 @@ end
 
 local mute_sticker = data[tostring(target)]["mutes"]["mute_sticker"] 
 if mute_sticker == "yes" then
- return "*Mute Sticker* _Is Already Enabled_"
+ return "*Mute Sticker Is Already* `Enabled`"
 else
  data[tostring(target)]["mutes"]["mute_sticker"] = "yes" 
 save_data(_config.moderation.data, data) 
- return "*Mute Sticker* _Has Been Enabled_"
+ return "*Mute Sticker Has Been* `Enabled`"
 end
 end
 
@@ -1026,11 +1026,11 @@ return "_You're Not_ *Moderator*"
 end 
 local mute_sticker = data[tostring(target)]["mutes"]["mute_sticker"]
  if mute_sticker == "no" then
-return "*Mute Sticker* _Is Already Disabled_" 
+return "*Mute Sticker Is Already* `Disabled`" 
 else 
 data[tostring(target)]["mutes"]["mute_sticker"] = "no"
  save_data(_config.moderation.data, data) 
-return "*Mute Sticker* _Has Been Disabled_" 
+return "*Mute Sticker Has Been* `Disabled`" 
 end
 end
 ---------------Mute Contact-------------------
@@ -1041,11 +1041,11 @@ end
 
 local mute_contact = data[tostring(target)]["mutes"]["mute_contact"] 
 if mute_contact == "yes" then
- return "*Mute Contact* _Is Already Enabled_"
+ return "*Mute Contact Is Already* `Enabled`"
 else
  data[tostring(target)]["mutes"]["mute_contact"] = "yes" 
 save_data(_config.moderation.data, data) 
- return "*Mute Contact* _Has Been Enabled_"
+ return "*Mute Contact Has Been* `Enabled`"
 end
 end
 
@@ -1055,11 +1055,11 @@ return "_You're Not_ *Moderator*"
 end 
 local mute_contact = data[tostring(target)]["mutes"]["mute_contact"]
  if mute_contact == "no" then
-return "*Mute Contact* _Is Already Disabled_" 
+return "*Mute Contact Is Already* `Disabled`" 
 else 
 data[tostring(target)]["mutes"]["mute_contact"] = "no"
  save_data(_config.moderation.data, data) 
-return "*Mute Contact* _Has Been Disabled_" 
+return "*Mute Contact Has Been* `Disabled`" 
 end
 end
 ---------------Mute Forward-------------------
@@ -1070,11 +1070,11 @@ end
 
 local mute_forward = data[tostring(target)]["mutes"]["mute_forward"] 
 if mute_forward == "yes" then
- return "*Mute Forward* _Is Already Enabled_"
+ return "*Mute Forward Is Already* `Enabled`"
 else
  data[tostring(target)]["mutes"]["mute_forward"] = "yes" 
 save_data(_config.moderation.data, data) 
- return "*Mute Forward* _Has Been Enabled_"
+ return "*Mute Forward Has Been Enabled_"
 end
 end
 
@@ -1084,11 +1084,11 @@ return "_You're Not_ *Moderator*"
 end 
 local mute_forward = data[tostring(target)]["mutes"]["mute_forward"]
  if mute_forward == "no" then
-return "*Mute Forward* _Is Already Disabled_" 
+return "*Mute Forward Is Already* `Disabled`" 
 else 
 data[tostring(target)]["mutes"]["mute_forward"] = "no"
  save_data(_config.moderation.data, data) 
-return "*Mute Forward* _Has Been Disabled_" 
+return "*Mute Forward Has Been* `Disabled`" 
 end
 end
 ---------------Mute Location-------------------
@@ -1099,11 +1099,11 @@ end
 
 local mute_location = data[tostring(target)]["mutes"]["mute_location"] 
 if mute_location == "yes" then
- return "*Mute Location* _Is Already Enabled_"
+ return "*Mute Location Is Already* `Enabled`"
 else
  data[tostring(target)]["mutes"]["mute_location"] = "yes" 
 save_data(_config.moderation.data, data) 
- return "*Mute Location* _Has Been Enabled_"
+ return "*Mute Location Has Been* `Enabled`"
 end
 end
 
@@ -1113,11 +1113,11 @@ return "_You're Not_ *Moderator*"
 end 
 local mute_location = data[tostring(target)]["mutes"]["mute_location"]
  if mute_location == "no" then
-return "*Mute Location* _Is Already Disabled_" 
+return "*Mute Location Is Already* `Disabled`" 
 else 
 data[tostring(target)]["mutes"]["mute_location"] = "no"
  save_data(_config.moderation.data, data) 
-return "*Mute Location* _Has Been Disabled_" 
+return "*Mute Location Has Been* `Disabled`" 
 end
 end
 ---------------Mute Document-------------------
@@ -1128,11 +1128,11 @@ end
 
 local mute_document = data[tostring(target)]["mutes"]["mute_document"] 
 if mute_document == "yes" then
- return "*Mute Document* _Is Already Enabled_"
+ return "*Mute Document Is Already* `Enabled`"
 else
  data[tostring(target)]["mutes"]["mute_document"] = "yes" 
 save_data(_config.moderation.data, data) 
- return "*Mute Document* _Has Been Enabled_"
+ return "*Mute Document Has Been* `Enabled`"
 end
 end
 
@@ -1142,11 +1142,11 @@ return "_You're Not_ *Moderator*"
 end 
 local mute_document = data[tostring(target)]["mutes"]["mute_document"]
  if mute_document == "no" then
-return "*Mute Document* _Is Already Disabled_" 
+return "*Mute Document Is Already* `Disabled`" 
 else 
 data[tostring(target)]["mutes"]["mute_document"] = "no"
  save_data(_config.moderation.data, data) 
-return "*Mute Document* _Has Been Disabled_" 
+return "*Mute Document Has Been* `Disabled`" 
 end
 end
 ---------------Mute TgService-------------------
@@ -1157,11 +1157,11 @@ end
 
 local mute_tgservice = data[tostring(target)]["mutes"]["mute_tgservice"] 
 if mute_tgservice == "yes" then
- return "*Mute TgService* _Is Already Enabled_"
+ return "*Mute TgService Is Already* `Enabled`"
 else
  data[tostring(target)]["mutes"]["mute_tgservice"] = "yes" 
 save_data(_config.moderation.data, data) 
- return "*Mute TgService* _Has Been Enabled_"
+ return "*Mute TgService Has Been* `Enabled`"
 end
 end
 
@@ -1171,11 +1171,11 @@ return "_You're Not_ *Moderator*"
 end 
 local mute_tgservice = data[tostring(target)]["mutes"]["mute_tgservice"]
  if mute_tgservice == "no" then
-return "*Mute TgService* _Is Already Disabled_" 
+return "*Mute TgService Is Already* `Disabled`" 
 else 
 data[tostring(target)]["mutes"]["mute_tgservice"] = "no"
  save_data(_config.moderation.data, data) 
-return "*Mute TgService* _Has Been Disabled_" 
+return "*Mute TgService Has Been* `Disabled`" 
 end
 end
 ----------MuteList---------
@@ -1270,7 +1270,7 @@ local function run(msg, matches)
    local user = msg.sender_user_id_
 if matches[1] == "id" then
 if not matches[2] and tonumber(msg.reply_to_message_id_) == 0 then
-return "*Chat ID :* _"..chat.."_\n*User ID :* _"..user.."_"
+return "🔹_Information:_\n✨*Group ID :* `"..chat.."`\n✨*User ID :* `"..user.."`"
 end
 if not matches[2] and tonumber(msg.reply_to_message_id_) ~= 0 then
     tdcli_function ({
@@ -1288,11 +1288,11 @@ if matches[2] and tonumber(msg.reply_to_message_id_) == 0 then
    end
 if matches[1] == "pin" and is_owner(msg) then
 tdcli.pinChannelMessage(msg.chat_id_, msg.reply_to_message_id_, 1)
-return "*Message Has Been Pineed*"
+return "*Message Has Been* `Pineed`"
 end
 if matches[1] == 'unpin' and is_mod(msg) then
 tdcli.unpinChannelMessage(msg.chat_id_)
-return "*Pin message has been unpinned*"
+return "*Pin message has been* `unPinned`"
 end
 if matches[1] == "add" then
 return modadd(msg)
@@ -1545,7 +1545,7 @@ end
 end
 if matches[1] == "gpinfo" and gp_type(msg.chat_id_) == "channel" then
 local function group_info(arg, data)
-local text = "*Group Info :*\n_Admin Count :_ *"..data.administrator_count_.."*\n_Member Count :_ *"..data.member_count_.."*\n_Kicked Count :_ *"..data.kicked_count_.."*\n_Group ID :_ *"..data.channel_.id_.."*"
+local text = "🔹*Group Information:*\n✨_Admin Count:_  `"..data.administrator_count_.."`\n✨_Member Count:_  `"..data.member_count_.."`\n✨_Kicked Count:_  `"..data.kicked_count_.."`\n✨_Group ID:_  `"..data.channel_.id_.."`"
 print(serpent.block(data))
         tdcli.sendMessage(arg.chat_id, arg.msg_id, 1, text, 1, 'md')
 end
@@ -1554,7 +1554,7 @@ end
 		if matches[1] == 'setlink' and is_owner(msg) then
 			data[tostring(chat)]['settings']['linkgp'] = 'waiting'
 			save_data(_config.moderation.data, data)
-			return '_Please send the new group_ *link* _now_'
+			return '_Please send to me the new group_ `Link` _now_'
 		end
 
 		if msg.content_.text_ then
@@ -1562,7 +1562,7 @@ end
 			if is_link and data[tostring(chat)]['settings']['linkgp'] == 'waiting' and is_owner(msg) then
 				data[tostring(chat)]['settings']['linkgp'] = msg.content_.text_
 				save_data(_config.moderation.data, data)
-				return "*Newlink* _has been set_"
+				return "`NewLink` _has been set_"
 			end
 		end
     if matches[1] == 'link' and is_mod(msg) then
@@ -1570,19 +1570,19 @@ end
       if not linkgp then
         return "_First set a link for group with using 》/setlink《_"
       end
-      local text = "<b>Group Link :</b>\n"..linkgp
+      local text = "*Group Link :*\n"..linkgp
         return tdcli.sendMessage(chat, msg.id_, 1, text, 1, 'html')
 		end
   if matches[1] == "setrules" and matches[2] and is_mod(msg) then
     data[tostring(chat)]['rules'] = matches[2]
 	  save_data(_config.moderation.data, data)
-    return "*Group rules* _has been set_"
+    return "`Group Rules` _has been set!_"
   end
   if matches[1] == "rules" then
  if not data[tostring(chat)]['rules'] then
      rules = "ℹ️ The Default Rules :\n1⃣ No Flood.\n2⃣ No Spam.\n3⃣ No Advertising.\n4⃣ Try to stay on topic.\n5⃣ Forbidden any racist, sexual, homophobic or gore content.\n➡️ Repeated failure to comply with these rules will cause ban.\n@To0fan"
         else
-     rules = "*Group Rules :*\n"..data[tostring(chat)]['rules']
+     rules = "*Group Rules:*\n"..data[tostring(chat)]['rules']
       end
     return rules
   end
@@ -1592,63 +1592,63 @@ if matches[1] == "res" and matches[2] and is_mod(msg) then
       username_ = matches[2]
     }, action_by_username, {chat_id=msg.chat_id_,username=matches[2],cmd="res"})
   end
-if matches[1] == "whois" and matches[2] and is_mod(msg) then
+if matches[1] == "uid" and matches[2] and is_mod(msg) then
 tdcli_function ({
     ID = "GetUser",
     user_id_ = matches[2],
-  }, action_by_id, {chat_id=msg.chat_id_,user_id=matches[2],cmd="whois"})
+  }, action_by_id, {chat_id=msg.chat_id_,user_id=matches[2],cmd="uid"})
   end
   if matches[1] == 'setflood' and is_mod(msg) then
 			if tonumber(matches[2]) < 1 or tonumber(matches[2]) > 50 then
-				return "_Wrong number, range is_ *[1-50]*"
+				return "_Wrong number, range is_ `[1-50]`"
         end
 			local flood_max = matches[2]
 			data[tostring(chat)]['settings']['num_msg_max'] = flood_max
 			save_data(_config.moderation.data, data)
-    return "_Group_ *flood* _sensitivity has been set to :_ *[ "..matches[2].." ]*"
+    return "_Group_ `flood` _sensitivity has been set to :_ `[ "..matches[2].." ]`"
        end
 		if matches[1]:lower() == 'clean' and is_owner(msg) then
 			if matches[2] == 'mods' then
 				if next(data[tostring(chat)]['mods']) == nil then
-					return "_No_ *moderators* _in this group_"
+					return "*No* _Moderators_ *in this Group*"
 				end
 				for k,v in pairs(data[tostring(chat)]['mods']) do
 					data[tostring(chat)]['mods'][tostring(k)] = nil
 					save_data(_config.moderation.data, data)
 				end
-				return "_All_ *moderators* _has been demoted_"
+				return "*All* _Moderators_ *has been Demoted*"
 			end
 			if matches[2] == 'rules' then
 				if not data[tostring(chat)]['rules'] then
-					return "_No_ *rules* _available_"
+					return "*No* _Rules_ *available*"
 				end
 					data[tostring(chat)]['rules'] = nil
 					save_data(_config.moderation.data, data)
-				return "*Group rules* _has been cleaned_"
+				return "_Group Rules_ *has been cleaned*"
 			end
 			if matches[2] == 'about' then
         if gp_type(chat) == "chat" then
 				if not data[tostring(chat)]['about'] then
-					return "_No_ *description* _available_"
+					return "*No* _Description_ *available*"
 				end
 					data[tostring(chat)]['about'] = nil
 					save_data(_config.moderation.data, data)
         elseif gp_type(chat) == "channel" then
-   tdcli.changeChannelAbout(chat, "", dl_cb, nil)
+					tdcli.changeChannelAbout(chat, "", dl_cb, nil)
              end
-				return "*Group description* _has been cleaned_"
+				return "_Group Description_ *has been cleaned*"
 		   	end
         end
 		if matches[1]:lower() == 'clean' and is_admin(msg) then
 			if matches[2] == 'owners' then
 				if next(data[tostring(chat)]['owners']) == nil then
-					return "_No_ *owners* _in this group_"
+					return "*No* _Owners_ *in this Group*"
 				end
 				for k,v in pairs(data[tostring(chat)]['owners']) do
 					data[tostring(chat)]['owners'][tostring(k)] = nil
 					save_data(_config.moderation.data, data)
 				end
-				return "_All_ *owners* _has been demoted_"
+				return "*All* _Owners_ *has been demoted*"
 			end
      end
 if matches[1] == "setname" and matches[2] and is_mod(msg) then
@@ -1662,13 +1662,13 @@ end
     data[tostring(chat)]['about'] = matches[2]
 	  save_data(_config.moderation.data, data)
      end
-    return "*Group description* _has been set_" 
+    return "_Group Description_ *has been set*" 
   end
   if matches[1] == "about" and gp_type(chat) == "chat" then
  if not data[tostring(chat)]['about'] then
-     about = "_No_ *description* _available_"
+     about = "*No* _Description_ *available*"
         else
-     about = "*Group Description :*\n"..data[tostring(chat)]['about']
+     about = "*Group Description:*\n"..data[tostring(chat)]['about']
       end
     return about
   end
@@ -1725,7 +1725,7 @@ _Show User ID_
 *!id* `[reply]`
 _Show User ID_
 
-*!whois* `[id]`
+*!uid* `[id]`
 _Show User's Username And Name_
 
 *!lock* `[link | tag | edit | webpage | bots | spam | flood | markdown | mention]`
@@ -1782,11 +1782,10 @@ _Show Group Information_
 *!link*
 _Show Group Link_
 
-_You Can Use_ *[!/#]* _To Run The Commands_
-_This Help List Only For_ *Moderators/Owners!*
-_Its Means, Only Group_ *Moderators/Owners* _Can Use It!_
+_You Can Use_ *[!/#]* _To Excute The Commands_
+_This Help List Only Can Be Used By_ *Moderators/Owners!*
 
-*Good luck ;)*]]
+*Cheers.*]]
 return text
 end
 end
@@ -1797,7 +1796,6 @@ patterns ={
 "^[!/#](pin)$",
 "^[!/#](unpin)$",
 "^[!/#](gpinfo)$",
-"^[!/#](test)$",
 "^[!/#](add)$",
 "^[!/#](rem)$",
 "^[!/#](setowner)$",
@@ -1826,7 +1824,7 @@ patterns ={
 "^[!/#](clean) (.*)$",
 "^[!/#](setflood) (%d+)$",
 "^[!/#](res) (.*)$",
-"^[!/#](whois) (%d+)$",
+"^[!/#](uid) (%d+)$",
 "^[!/#](help)$",
 "^([https?://w]*.?t.me/joinchat/%S+)$",
 "^([https?://w]*.?telegram.me/joinchat/%S+)$",
