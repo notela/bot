@@ -1672,7 +1672,7 @@ end
     if matches[1] == 'link' and is_mod(msg) then
       local linkgp = data[tostring(chat)]['settings']['linkgp']
       if not linkgp then
-        return "_First set a link for group with using 》/setlink《_"
+        return "_First set a link for group with using_ /setlink"
       end
       local text = "<b>Group Link :</b>\n"..linkgp
         return tdcli.sendMessage(chat, msg.id_, 1, text, 1, 'html')
@@ -1686,7 +1686,7 @@ end
  if not data[tostring(chat)]['rules'] then
      rules = "ℹ️ The Default Rules :\n1⃣ No Flood.\n2⃣ No Spam.\n3⃣ No Advertising.\n4⃣ Try to stay on topic.\n5⃣ Forbidden any racist, sexual, homophobic or gore content.\n➡️ Repeated failure to comply with these rules will cause ban.\n@To0fan"
         else
-     rules = "*Group Rules:*\n"..data[tostring(chat)]['rules']
+     rules = "Group Rules:\n"..data[tostring(chat)]['rules']
       end
     return rules
   end
