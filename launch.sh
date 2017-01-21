@@ -19,6 +19,8 @@ install() {
 		mv telegram-cli-1222 tgcli
 		chmod +x tgcli
 		cd ..
+		chmod +x bot
+		chmod +x tg
 }
 
 if [ "$1" = "install" ]; then
