@@ -385,8 +385,8 @@ end
 
 --[[function del_msg(chat_id, message_ids)
 local msgid = {[0] = message_ids}
-  tdcli.deleteMessages(chat_id, msgid, dl_cb, nil)]]
-end
+  tdcli.deleteMessages(chat_id, msgid, dl_cb, nil)
+end]]
 
  function banned_list(chat_id)
     local data = load_data(_config.moderation.data)
