@@ -1240,7 +1240,7 @@ save_data(_config.moderation.data, data)
 end
 end
 
-local function unmute_location(msg, data, target)
+local function unmute_tgservice(msg, data, target)
  if not is_mod(msg) then
 return "*You're Not a* _Moderator_"
 end 
