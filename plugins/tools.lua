@@ -153,7 +153,8 @@ if not arg.username then return false end
 if is_admin1(tonumber(data.id_)) then
     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is already an_ *Admin*", 0, "md")
    end
-	    table.insert(_config.admins, {tonumber(data.id_), user_name})
+	    --table.insert(_config.admins, {tonumber(data.id_), user_name})
+		table.remove(_config.admins, nameid)
 		save_config()
     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _has been promoted as_ *Admin*", 0, "md")
 end
@@ -198,7 +199,8 @@ if not tonumber(arg.user_id) then return false end
 if is_admin1(tonumber(data.id_)) then
     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _is already an_ *Admin*", 0, "md")
    end
-	    table.insert(_config.admins, {tonumber(data.id_), user_name})
+	    --table.insert(_config.admins, {tonumber(data.id_), user_name})
+		table.remove(_config.admins, nameid)
 		save_config()
     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _has been promoted as_ *Admin*", 0, "md")
 end
@@ -379,7 +381,7 @@ if matches[1] == 'adminlist' and is_admin(msg) then
 return adminlist(msg)
     end
      if matches[1] == 'leave' and is_admin(msg) then
-  tdcli.changeChatMemberStatus(chat, our_id, 'Left')
+  tdcli.changeChatMemberStatus(chat, our_id, 'Left', dl_cb, nil)
    end
      if matches[1] == 'autoleave' and is_admin(msg) then
 local hash = 'auto_leave_bot'

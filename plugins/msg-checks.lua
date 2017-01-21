@@ -15,7 +15,7 @@ local data = load_data(_config.moderation.data)
   if msg.text:match("(.*)") then
     if not data[tostring(chat)] and not redis:get(auto_leave) and not is_admin(msg) then
   tdcli.sendMessage(msg.chat_id_, "", 0, "*This is not one of my* _Groups_", 0, "md")
-  tdcli.changeChatMemberStatus(chat, our_id, 'Left')
+  tdcli.changeChatMemberStatus(chat, our_id, 'Left', dl_cb, nil)
       end
    end
 end

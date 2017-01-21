@@ -196,6 +196,14 @@ tdcli_function ({
      kick_user(data.sender_user_id_, data.chat_id_)
     end
   end
+  if cmd == "delall" then
+   if is_mod1(data.chat_id_, data.sender_user_id_) then
+  return tdcli.sendMessage(data.chat_id_, "", 0, "*You can't delete messages* _Moderators_ , _Owners_ *and* _Bot admins_", 0, "md")
+  else
+	tdcli.deleteMessagesFromUser(data.chat_id_, data.sender_user_id_, dl_cb, nil)
+  return tdcli.sendMessage(data.chat_id_, "", 0, "*All* _Messages_ *of* [ `"..data.sender_user_id_.."` ] *has been* `Deleted`", 0, "md")
+    end
+  end
 end
 local function action_by_username(arg, data)
   local cmd = arg.cmd
@@ -280,6 +288,15 @@ end
      kick_user(data.id_, arg.chat_id)
     end
   end
+    if cmd == "delall" then
+   if is_mod1(arg.chat_id, data.id_) then
+  return tdcli.sendMessage(arg.chat_id, "", 0, "_You can't delete messages_ *mods,owners and bot admins*", 0, "md")
+  else
+	tdcli.deleteMessagesFromUser(arg.chat_id, data.id_, dl_cb, nil)
+  return tdcli.sendMessage(arg.chat_id, "", 0, "*All* _Messages_ *of* "..user_name.." [ `"..data.id_.."` ] *has been* *Deleted*", 0, "md")
+
+    end
+  end
 end
 local function run(msg, matches)
 local data = load_data(_config.moderation.data)
@@ -305,6 +322,30 @@ kick_user(matches[2], msg.chat_id_)
       ID = "SearchPublicChat",
       username_ = matches[2]
     }, action_by_username, {chat_id=msg.chat_id_,username=matches[2],cmd="kick"})
+         end
+      end
+	  if matches[1] == "delall" and is_mod(msg) then
+if not matches[2] and tonumber(msg.reply_to_message_id_) ~= 0 then
+    tdcli_function ({
+      ID = "GetMessage",
+      chat_id_ = msg.chat_id_,
+      message_id_ = msg.reply_to_message_id_
+    }, action_by_reply, {chat_id=msg.chat_id_,cmd="delall"})
+end
+  if matches[2] and string.match(matches[2], '^%d+$') then
+   if is_mod1(msg.chat_id_, matches[2]) then
+   return tdcli.sendMessage(msg.chat_id_, "", 0, "*You can't delete messages* _Moderators_ , _Owners_ *and* _Bot admins_", 0, "md")
+     else
+	tdcli.deleteMessagesFromUser(msg.chat_id_, matches[2], dl_cb, nil)
+  return tdcli.sendMessage(msg.chat_id_, "", 0, "_All_ *messages* _of_ *[ "..matches[2].." ]* _has been_ *Deleted*", 0, "md")
+
+      end
+   end
+  if matches[2] and not string.match(matches[2], '^%d+$') then
+    tdcli_function ({
+      ID = "SearchPublicChat",
+      username_ = matches[2]
+    }, action_by_username, {chat_id=msg.chat_id_,username=matches[2],cmd="delall"})
          end
       end
  if matches[1] == "banall" and is_admin(msg) then
@@ -519,6 +560,8 @@ return {
 		"^[!/#](silentlist)$",
 		"^[!/#](kick)$",
 		"^[!/#](kick) (.*)$",
+		"^[!/#](delall)$",
+		"^[!/#](delall) (.*)$",
 		"^[!/#](clean) (.*)$",
 	},
 	run = run,

@@ -20,7 +20,9 @@ local function modadd(msg)
           lock_webpage = 'no',
           lock_markdown = 'no',
           flood = 'yes',
-          lock_bots = 'yes'
+          lock_bots = 'yes',
+		  lock_hash = 'no',
+		  lock_pmhash = 'no'
           },
    mutes = {
                   mute_fwd = 'no',
@@ -210,6 +212,7 @@ local cmd = arg.cmd
   if not administration[tostring(arg.chat_id)] then
     return tdcli.sendMessage(arg.chat_id, "", 0, "_Group is not added_", 0, "md")
   end
+  if arg.username then
 if data.type_.user_.username_ and not data.type_.user_.username_:match("_") then
 user_name = '@'..data.type_.user_.username_
 else
@@ -252,10 +255,11 @@ end
     return tdcli.sendMessage(arg.chat_id, "", 0, "*"..data.id_.."*", 0, "md")
 end
     if cmd == "res" then
-    local text = "🔹*Information* [ @".. data.type_.user_.username_ .." ]:\n"
-    .. "✨*Name:* _".. data.title_ .."_\n"
-    .. "✨*ID:* [`".. data.id_ .."`]"
-       return tdcli.sendMessage(arg.chat_id, 0, 1, text, 1)
+    --local text = "<b>ℹ️Information</b> [ @".. data.type_.user_.username_ .." ]: \n<b>✨Name:</b> <i>".. data.title_ .."</i>\n<b>✨ID:</b> [ <code>".. data.id_ .."</code> ]"
+       return tdcli.sendMessage(arg.chat_id, 0, 1, "<b>ℹ️Information</b> [ @".. data.type_.user_.username_ .." ]: \n<b>✨Name:</b> <i>".. data.title_ .."</i>\n<b>✨ID:</b> [ <code>".. data.id_ .."</code> ]", 1, 'html')
+   end
+   else
+     return tdcli.sendMessage(arg.chat_id, "", 0, "_User not found!_", 0, "md")
    end
 end
 
@@ -263,7 +267,7 @@ local function action_by_id(arg, data)
 local cmd = arg.cmd
     local administration = load_data(_config.moderation.data)
   if not administration[tostring(arg.chat_id)] then
-    return tdcli.sendMessage(arg.chat_id, "", 0, "_Group is not added_", 0, "md")
+    return tdcli.sendMessage(arg.chat_id, "", 0, "_Group is not added_", 1, "md")
   end
 if not tonumber(arg.user_id) then return false end
 if data.first_name_ then
@@ -305,14 +309,14 @@ administration[tostring(arg.chat_id)]['mods'][tostring(data.id_)] = nil
     return tdcli.sendMessage(arg.chat_id, "", 0, "_User_ "..user_name.." `"..data.id_.."` _has been_ *Demoted*", 0, "md")
 end
     if cmd == "uid" then
-if data.username_ then
-username = '@'..data.username_
-else
-username = '_not found_'
-end
-       return tdcli.sendMessage(arg.chat_id, 0, 1, '🔹*Info for* [ `'..data.id_..'` ] :\n✨*UserName:* '..username..'\n✨*Name:* _'..data.first_name_..'_', 1)
-   end
- else
+	if data.username_ then
+		username = '@'..data.username_
+	else
+		username = 'not found'
+	end
+       return tdcli.sendMessage(arg.chat_id, 0, 1, '<b>ℹ️Information</b> [ <code>'..data.id_..'</code> ]: \n<b>✨Name:</b> <i>'..data.first_name_..'</i>\n<b>✨Username:</b> '..username..'', 1, 'html')
+	end
+	else
   return tdcli.sendMessage(arg.chat_id, "", 0, "_User not found!_", 0, "md")
   end
 end
@@ -321,7 +325,7 @@ end
 ---------------Lock Link-------------------
 local function lock_link(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local lock_link = data[tostring(target)]["settings"]["lock_link"] 
@@ -330,14 +334,13 @@ if lock_link == "yes" then
 else
  data[tostring(target)]["settings"]["lock_link"] = "yes"
 save_data(_config.moderation.data, data) 
- return 
-"*Link Has Been `Locked`"
+ return "*Link Has Been* `Locked`"
 end
 end
 
 local function unlock_link(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local lock_link = data[tostring(target)]["settings"]["lock_link"]
  if lock_link == "no" then
@@ -351,7 +354,7 @@ end
 ---------------Lock Tag-------------------
 local function lock_tag(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local lock_tag = data[tostring(target)]["settings"]["lock_tag"] 
@@ -360,28 +363,88 @@ if lock_tag == "yes" then
 else
  data[tostring(target)]["settings"]["lock_tag"] = "yes"
 save_data(_config.moderation.data, data) 
- return 
-"*Tag Has Been* `Locked`"
+ return "*Tag Has Been* `Locked`"
 end
 end
 
 local function unlock_tag(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local lock_tag = data[tostring(target)]["settings"]["lock_tag"]
  if lock_tag == "no" then
 return "*Tag Is Not* `Locked`" 
 else 
-data[tostring(target)]["settings"]["lock_tag"] = "no" save_data(_config.moderation.data, data) 
+data[tostring(target)]["settings"]["lock_tag"] = "no" 
+save_data(_config.moderation.data, data) 
 return "*Tag Has Been* `Unlocked`" 
+end
+end
+
+---------------Lock HashTag-------------------
+local function lock_hash(msg, data, target) 
+if not is_mod(msg) then
+ return "*You're Not a* _Moderator_"
+end
+
+local lock_tag = data[tostring(target)]["settings"]["lock_hash"] 
+if lock_tag == "yes" then
+ return "*HashTag Is Already* `Locked`"
+else
+ data[tostring(target)]["settings"]["lock_hash"] = "yes"
+save_data(_config.moderation.data, data) 
+ return "*HashTag Has Been* `Locked`"
+end
+end
+
+local function unlock_hash(msg, data, target)
+ if not is_mod(msg) then
+return "*You're Not a* _Moderator_"
+end 
+local lock_tag = data[tostring(target)]["settings"]["lock_hash"]
+ if lock_tag == "no" then
+return "*HashTag Is Not* `Locked`" 
+else 
+data[tostring(target)]["settings"]["lock_hash"] = "no" 
+save_data(_config.moderation.data, data) 
+return "*HashTag Has Been* `Unlocked`" 
+end
+end
+
+---------------Lock PM HashTag-------------------
+local function lock_pmhash(msg, data, target) 
+if not is_mod(msg) then
+ return "*You're Not a* _Moderator_"
+end
+
+local lock_tag = data[tostring(target)]["settings"]["lock_pmhash"] 
+if lock_tag == "yes" then
+ return "*HashTag Warning Is Already* `Show`"
+else
+ data[tostring(target)]["settings"]["lock_pmhash"] = "yes"
+save_data(_config.moderation.data, data) 
+ return "*HashTag Warning Has Been* `Show`"
+end
+end
+
+local function unlock_pmhash(msg, data, target)
+ if not is_mod(msg) then
+return "*You're Not a* _Moderator_"
+end 
+local lock_tag = data[tostring(target)]["settings"]["lock_pmhash"]
+ if lock_tag == "no" then
+return "*HashTag Warning Is Not* `Show`" 
+else 
+data[tostring(target)]["settings"]["lock_pmhash"] = "no" 
+save_data(_config.moderation.data, data) 
+return "*HashTag Warning Has Been* `Hidden`" 
 end
 end
 
 ---------------Lock Mention-------------------
 local function lock_mention(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local lock_mention = data[tostring(target)]["settings"]["lock_mention"] 
@@ -390,14 +453,13 @@ if lock_mention == "yes" then
 else
  data[tostring(target)]["settings"]["lock_mention"] = "yes"
 save_data(_config.moderation.data, data) 
- return 
-"*Mention Has Been* `Locked`"
+ return "*Mention Has Been* `Locked`"
 end
 end
 
 local function unlock_mention(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local lock_mention = data[tostring(target)]["settings"]["lock_mention"]
  if lock_mention == "no" then
@@ -411,7 +473,7 @@ end
 ---------------Lock Edit-------------------
 local function lock_edit(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local lock_edit = data[tostring(target)]["settings"]["lock_edit"] 
@@ -420,14 +482,13 @@ if lock_edit == "yes" then
 else
  data[tostring(target)]["settings"]["lock_edit"] = "yes"
 save_data(_config.moderation.data, data) 
- return 
-"*Editing Has Been* `Locked`"
+ return "*Editing Has Been* `Locked`"
 end
 end
 
 local function unlock_edit(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local lock_edit = data[tostring(target)]["settings"]["lock_edit"]
  if lock_edit == "no" then
@@ -441,7 +502,7 @@ end
 ---------------Lock spam-------------------
 local function lock_spam(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local lock_spam = data[tostring(target)]["settings"]["lock_spam"] 
@@ -450,14 +511,13 @@ if lock_spam == "yes" then
 else
  data[tostring(target)]["settings"]["lock_spam"] = "yes"
 save_data(_config.moderation.data, data) 
- return 
-"*Spam Has Been* `Locked`"
+ return "*Spam Has Been* `Locked`"
 end
 end
 
 local function unlock_spam(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local lock_spam = data[tostring(target)]["settings"]["lock_spam"]
  if lock_spam == "no" then
@@ -471,7 +531,7 @@ end
 ---------------Lock Flood-------------------
 local function lock_flood(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local lock_flood = data[tostring(target)]["settings"]["flood"] 
@@ -480,14 +540,13 @@ if lock_flood == "yes" then
 else
  data[tostring(target)]["settings"]["flood"] = "yes"
 save_data(_config.moderation.data, data) 
- return 
-"*Flooding Has Been* `Locked`"
+ return "*Flooding Has Been* `Locked`"
 end
 end
 
 local function unlock_flood(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local lock_flood = data[tostring(target)]["settings"]["flood"]
  if lock_flood == "no" then
@@ -501,7 +560,7 @@ end
 ---------------Lock Bots-------------------
 local function lock_bots(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local lock_bots = data[tostring(target)]["settings"]["lock_bots"] 
@@ -510,14 +569,13 @@ if lock_bots == "yes" then
 else
  data[tostring(target)]["settings"]["lock_bots"] = "yes"
 save_data(_config.moderation.data, data) 
- return 
-"*Bots Remove Has Been* `Enabled`"
+ return "*Bots Remove Has Been* `Enabled`"
 end
 end
 
 local function unlock_bots(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local lock_bots = data[tostring(target)]["settings"]["lock_bots"]
  if lock_bots == "no" then
@@ -531,7 +589,7 @@ end
 ---------------Lock Markdown-------------------
 local function lock_markdown(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local lock_markdown = data[tostring(target)]["settings"]["lock_markdown"] 
@@ -540,14 +598,13 @@ if lock_markdown == "yes" then
 else
  data[tostring(target)]["settings"]["lock_markdown"] = "yes"
 save_data(_config.moderation.data, data) 
- return 
-"*Markdown Has Been* `Locked`"
+ return "*Markdown Has Been* `Locked`"
 end
 end
 
 local function unlock_markdown(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local lock_markdown = data[tostring(target)]["settings"]["lock_markdown"]
  if lock_markdown == "no" then
@@ -561,7 +618,7 @@ end
 ---------------Lock Webpage-------------------
 local function lock_webpage(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local lock_webpage = data[tostring(target)]["settings"]["lock_webpage"] 
@@ -570,14 +627,13 @@ if lock_webpage == "yes" then
 else
  data[tostring(target)]["settings"]["lock_webpage"] = "yes"
 save_data(_config.moderation.data, data) 
- return 
-"*Webpage Has Been* `Locked`"
+ return "*Webpage Has Been* `Locked`"
 end
 end
 
 local function unlock_webpage(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local lock_webpage = data[tostring(target)]["settings"]["lock_webpage"]
  if lock_webpage == "no" then
@@ -589,6 +645,7 @@ return "*Webpage Has Been* `Unlocked`"
 end
 end
 
+-------------------Settings------------------
 function group_settings(msg, target) 	
 if not is_mod(msg) then
  	return "You're Not Moderator"	
@@ -613,6 +670,18 @@ end
 if data[tostring(target)]["settings"] then		
 if not data[tostring(target)]["settings"]["lock_tag"] then			
 data[tostring(target)]["settings"]["lock_tag"] = "yes"		
+end
+end
+
+if data[tostring(target)]["settings"] then		
+if not data[tostring(target)]["settings"]["lock_hash"] then			
+data[tostring(target)]["settings"]["lock_hash"] = "no"		
+end
+end
+
+if data[tostring(target)]["settings"] then		
+if not data[tostring(target)]["settings"]["lock_pmhash"] then			
+data[tostring(target)]["settings"]["lock_pmhash"] = "no"		
 end
 end
 
@@ -735,7 +804,13 @@ end
 end
 local mutes = data[tostring(target)]["mutes"] 
 local settings = data[tostring(target)]["settings"] 
-local text = "⚙*Group Settings:*\n🔹*Lock Edit :* "..settings.lock_edit.."\n🔹*Lock Links :* "..settings.lock_link.."\n🔹*Lock Tags :* "..settings.lock_tag.."\n🔹*Lock Flood :* "..settings.flood.."\n🔹*Lock Spam :* "..settings.lock_spam.."\n🔹*Lock Mention :* "..settings.lock_mention.."\n🔹*Lock Webpage :* "..settings.lock_webpage.."\n🔹*Lock Markdown :* "..settings.lock_markdown.."\n🔹*Bots Remove :* "..settings.lock_bots.."\n🔹*Flood Sensitivity :* `"..NUM_MSG_MAX.."` \n➡️➡️➡️\n⚙*Group Mute List* : \n🔹*Mute All :* "..mutes.mute_all.."\n🔹*Mute Gif :* "..mutes.mute_gif.."\n🔹*Mute Text :* "..mutes.mute_text.."\n🔹*Mute Inline :* "..mutes.mute_inline.."\n🔹*Mute Game :* "..mutes.mute_game.."\n🔹*Mute Photo :* "..mutes.mute_photo.."\n🔹*Mute Video :* "..mutes.mute_video.."\n🔹*Mute Audio :* "..mutes.mute_audio.."\n🔹*Mute Voice :* "..mutes.mute_voice.."\n🔹*Mute Sticker :* "..mutes.mute_sticker.."\n🔹*Mute Contact :* "..mutes.mute_contact.."\n🔹*Mute Forward :* "..mutes.mute_forward.."\n🔹*Mute Location :* "..mutes.mute_location.."\n🔹*Mute Document :* "..mutes.mute_document.."\n🔹*Mute TgService :* "..mutes.mute_tgservice
+local muter = redis:get('mute_time:'..msg.chat_id_)
+  if muter then
+  	mute_timer = 'yes'
+  else
+  	mute_timer = 'no'
+  end
+local text = "⚙*Group Settings:*\n🔹*Lock Edit :* "..settings.lock_edit.."\n🔹*Lock Links :* "..settings.lock_link.."\n🔹*Lock Hash :* "..settings.lock_hash.."\n🔹*Lock PmHash :* "..settings.lock_pmhash.."\n🔹*Lock Tags :* "..settings.lock_tag.."\n🔹*Lock Flood :* "..settings.flood.."\n🔹*Lock Spam :* "..settings.lock_spam.."\n🔹*Lock Mention :* "..settings.lock_mention.."\n🔹*Lock Webpage :* "..settings.lock_webpage.."\n🔹*Lock Markdown :* "..settings.lock_markdown.."\n🔹*Bots Remove :* "..settings.lock_bots.."\n🔹*Flood Sensitivity :* `"..NUM_MSG_MAX.."` \n➡️➡️➡️\n⚙*Group Mute List* : \n🔹*Mute All :* "..mutes.mute_all.."\n🔹*Mute Gif :* "..mutes.mute_gif.."\n🔹*Mute Text :* "..mutes.mute_text.."\n🔹*Mute Inline :* "..mutes.mute_inline.."\n🔹*Mute Game :* "..mutes.mute_game.."\n🔹*Mute Photo :* "..mutes.mute_photo.."\n🔹*Mute Video :* "..mutes.mute_video.."\n🔹*Mute Audio :* "..mutes.mute_audio.."\n🔹*Mute Voice :* "..mutes.mute_voice.."\n🔹*Mute Sticker :* "..mutes.mute_sticker.."\n🔹*Mute Contact :* "..mutes.mute_contact.."\n🔹*Mute Forward :* "..mutes.mute_forward.."\n🔹*Mute Location :* "..mutes.mute_location.."\n🔹*Mute Document :* "..mutes.mute_document.."\n🔹*Mute TgService :* "..mutes.mute_tgservice.."\n🔹*Mute Time :* "..mute_timer
   --text = text.."\n➡️          ⬅️\n⚙*Group Mute List* : \n🔹*Mute all :* "..mutes.mute_all.."\n🔹*Mute gif :* "..mutes.mute_gif.."\n🔹*Mute text :* "..mutes.mute_text.."\n🔹*Mute inline :* "..mutes.mute_inline.."\n🔹*Mute game :* "..mutes.mute_game.."\n🔹*Mute photo :* "..mutes.mute_photo.."\n🔹*Mute video :* "..mutes.mute_video.."\n🔹*Mute audio :* "..mutes.mute_audio.."\n🔹*Mute voice :* "..mutes.mute_voice.."\n🔹*Mute sticker :* "..mutes.mute_sticker.."\n🔹*Mute contact :* "..mutes.mute_contact.."\n🔹*Mute forward :* "..mutes.mute_forward.."\n🔹*Mute location :* "..mutes.mute_location.."\n🔹*Mute document :* "..mutes.mute_document.."\n🔹*Mute TgService :* "..mutes.mute_tgservice
   text = string.gsub(text, "yes", "✅")
   text = string.gsub(text, "no", "⛔️")
@@ -745,7 +820,7 @@ end
 --------Mute all--------------------------
 local function mute_all(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local mute_all = data[tostring(target)]["mutes"]["mute_all"] 
@@ -761,7 +836,7 @@ end
 
 local function unmute_all(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local mute_all = data[tostring(target)]["mutes"]["mute_all"]
  if mute_all == "no" then
@@ -775,7 +850,7 @@ end
 ---------------Mute Gif-------------------
 local function mute_gif(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local mute_gif = data[tostring(target)]["mutes"]["mute_gif"] 
@@ -790,7 +865,7 @@ end
 
 local function unmute_gif(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local mute_gif = data[tostring(target)]["mutes"]["mute_gif"]
  if mute_gif == "no" then
@@ -804,7 +879,7 @@ end
 ---------------Mute Game-------------------
 local function mute_game(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local mute_game = data[tostring(target)]["mutes"]["mute_game"] 
@@ -819,7 +894,7 @@ end
 
 local function unmute_game(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local mute_game = data[tostring(target)]["mutes"]["mute_game"]
  if mute_game == "no" then
@@ -833,7 +908,7 @@ end
 ---------------Mute Inline-------------------
 local function mute_inline(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local mute_inline = data[tostring(target)]["mutes"]["mute_inline"] 
@@ -848,7 +923,7 @@ end
 
 local function unmute_inline(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local mute_inline = data[tostring(target)]["mutes"]["mute_inline"]
  if mute_inline == "no" then
@@ -862,7 +937,7 @@ end
 ---------------Mute Text-------------------
 local function mute_text(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local mute_text = data[tostring(target)]["mutes"]["mute_text"] 
@@ -877,7 +952,7 @@ end
 
 local function unmute_text(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local mute_text = data[tostring(target)]["mutes"]["mute_text"]
  if mute_text == "no" then
@@ -891,7 +966,7 @@ end
 ---------------Mute photo-------------------
 local function mute_photo(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local mute_photo = data[tostring(target)]["mutes"]["mute_photo"] 
@@ -906,7 +981,7 @@ end
 
 local function unmute_photo(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local mute_photo = data[tostring(target)]["mutes"]["mute_photo"]
  if mute_photo == "no" then
@@ -920,7 +995,7 @@ end
 ---------------Mute Video-------------------
 local function mute_video(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local mute_video = data[tostring(target)]["mutes"]["mute_video"] 
@@ -935,7 +1010,7 @@ end
 
 local function unmute_video(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local mute_video = data[tostring(target)]["mutes"]["mute_video"]
  if mute_video == "no" then
@@ -949,7 +1024,7 @@ end
 ---------------Mute Audio-------------------
 local function mute_audio(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local mute_audio = data[tostring(target)]["mutes"]["mute_audio"] 
@@ -964,7 +1039,7 @@ end
 
 local function unmute_video(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local mute_audio = data[tostring(target)]["mutes"]["mute_audio"]
  if mute_audio == "no" then
@@ -978,7 +1053,7 @@ end
 ---------------Mute Voice-------------------
 local function mute_voice(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local mute_voice = data[tostring(target)]["mutes"]["mute_voice"] 
@@ -993,7 +1068,7 @@ end
 
 local function unmute_video(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local mute_voice = data[tostring(target)]["mutes"]["mute_voice"]
  if mute_voice == "no" then
@@ -1007,7 +1082,7 @@ end
 ---------------Mute Sticker-------------------
 local function mute_sticker(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local mute_sticker = data[tostring(target)]["mutes"]["mute_sticker"] 
@@ -1022,7 +1097,7 @@ end
 
 local function unmute_sticker(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local mute_sticker = data[tostring(target)]["mutes"]["mute_sticker"]
  if mute_sticker == "no" then
@@ -1036,7 +1111,7 @@ end
 ---------------Mute Contact-------------------
 local function mute_contact(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local mute_contact = data[tostring(target)]["mutes"]["mute_contact"] 
@@ -1051,7 +1126,7 @@ end
 
 local function unmute_contact(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local mute_contact = data[tostring(target)]["mutes"]["mute_contact"]
  if mute_contact == "no" then
@@ -1065,7 +1140,7 @@ end
 ---------------Mute Forward-------------------
 local function mute_forward(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local mute_forward = data[tostring(target)]["mutes"]["mute_forward"] 
@@ -1080,7 +1155,7 @@ end
 
 local function unmute_forward(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local mute_forward = data[tostring(target)]["mutes"]["mute_forward"]
  if mute_forward == "no" then
@@ -1094,7 +1169,7 @@ end
 ---------------Mute Location-------------------
 local function mute_location(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local mute_location = data[tostring(target)]["mutes"]["mute_location"] 
@@ -1109,7 +1184,7 @@ end
 
 local function unmute_location(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local mute_location = data[tostring(target)]["mutes"]["mute_location"]
  if mute_location == "no" then
@@ -1123,7 +1198,7 @@ end
 ---------------Mute Document-------------------
 local function mute_document(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local mute_document = data[tostring(target)]["mutes"]["mute_document"] 
@@ -1138,7 +1213,7 @@ end
 
 local function unmute_document(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local mute_document = data[tostring(target)]["mutes"]["mute_document"]
  if mute_document == "no" then
@@ -1152,7 +1227,7 @@ end
 ---------------Mute TgService-------------------
 local function mute_tgservice(msg, data, target) 
 if not is_mod(msg) then
- return "_You're Not_ *Moderator*"
+ return "*You're Not a* _Moderator_"
 end
 
 local mute_tgservice = data[tostring(target)]["mutes"]["mute_tgservice"] 
@@ -1167,7 +1242,7 @@ end
 
 local function unmute_location(msg, data, target)
  if not is_mod(msg) then
-return "_You're Not_ *Moderator*"
+return "*You're Not a* _Moderator_"
 end 
 local mute_tgservice = data[tostring(target)]["mutes"]["mute_tgservice"]
  if mute_tgservice == "no" then
@@ -1414,10 +1489,33 @@ end
 if matches[2] == "webpage" then
 return lock_webpage(msg, data, target)
 end
+if matches[2] == "hash" then
+return lock_hash(msg, data, target)
+end
+if matches[2] == "pmhash" then
+return lock_pmhash(msg, data, target)
+end
 end
 
 if matches[1] == "unlock" and is_mod(msg) then
 local target = msg.chat_id_
+if matches[2] == "all" then
+local unlock_all_command ={
+        unlock_link(msg, data, target),
+		unlock_tag(msg, data, target),
+		unlock_mention(msg, data, target),
+		unlock_edit(msg, data, target),
+		unlock_spam(msg, data, target),
+		unlock_flood(msg, data, target),
+		unlock_bots(msg, data, target),
+		unlock_markdown(msg, data, target),
+		unlock_webpage(msg, data, target),
+		unlock_hash(msg, data, target),
+		unlock_pmhash(msg, data, target)
+
+      	}
+      	return '*All Lock Has Been* `Unlocked`', unlock_all_command
+end
 if matches[2] == "link" then
 return unlock_link(msg, data, target)
 end
@@ -1444,6 +1542,12 @@ return unlock_markdown(msg, data, target)
 end
 if matches[2] == "webpage" then
 return unlock_webpage(msg, data, target)
+end
+if matches[2] == "hash" then
+return unlock_hash(msg, data, target)
+end
+if matches[2] == "pmhash" then
+return unlock_pmhash(msg, data, target)
 end
 end
 if matches[1] == "mute" and is_mod(msg) then
@@ -1570,7 +1674,7 @@ end
       if not linkgp then
         return "_First set a link for group with using 》/setlink《_"
       end
-      local text = "*Group Link :*\n"..linkgp
+      local text = "<b>Group Link :</b>\n"..linkgp
         return tdcli.sendMessage(chat, msg.id_, 1, text, 1, 'html')
 		end
   if matches[1] == "setrules" and matches[2] and is_mod(msg) then
@@ -1728,10 +1832,10 @@ _Show User ID_
 *!uid* `[id]`
 _Show User's Username And Name_
 
-*!lock* `[link | tag | edit | webpage | bots | spam | flood | markdown | mention]`
+*!lock* `[link | tag | hash | pmhash | edit | webpage | bots | spam | flood | markdown | mention]`
 _If This Actions Lock, Bot Check Actions And Delete Them_
 
-*!unlock* `[link | tag | edit | webpage | bots | spam | flood | markdown | mention]`
+*!unlock* `[all | link | tag | hash | pmhash | edit | webpage | bots | spam | flood | markdown | mention]`
 _If This Actions Unlock, Bot Not Delete Them_
 
 *!mute* `[gifs | photo | doc | sticker | video | text | fwd | loc | audio | voice | contact | all]`
