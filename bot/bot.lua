@@ -28,8 +28,11 @@ function do_notify (user, msg)
 end
 
 function dl_cb (arg, data)
+	--vardump(data)
 end
-
+function vardump(value)
+  print(serpent.block(value, {comment=false}))
+end
 function serialize_to_file(data, file, uglify)
   file = io.open(file, 'w+')
   local serialized
