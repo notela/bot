@@ -38,6 +38,7 @@ if [ ! -f ./tg/tgcli ]; then
    echo -e "                                              \033[0;00m"
    echo -e "\e[36m"
    sudo service redis-server restart
-   ./tg/tgcli -s ./bot/bot.lua -l 1 -E $@
+   #./tg/tgcli -s ./bot/bot.lua -l 1 -E $@
+   ./tg/tgcli -s ./bot/bot.lua $@
 fi
 		
