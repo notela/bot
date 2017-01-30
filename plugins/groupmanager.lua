@@ -1345,7 +1345,43 @@ local function run(msg, matches)
    local user = msg.sender_user_id_
 if matches[1] == "id" then
 if not matches[2] and tonumber(msg.reply_to_message_id_) == 0 then
-return "🔹_Information:_\n✨*Group ID :* `"..chat.."`\n✨*User ID :* `"..user.."`"
+		function get_id(arg, data)
+			local username
+			if data.first_name_ then
+				if data.username_ then
+					username = '@'..data.username_
+				else
+					username = '<i>No Username!</i>'
+				end
+				local telNum
+				if data.phone_number_ then
+					telNum = '+'..data.phone_number_
+				else
+					telNum = '----'
+				end
+				local lastName
+				if data.last_name_ then
+					lastName = data.last_name_
+				else
+					lastName = '----'
+				end
+				local rank
+				if is_sudo(msg) then
+					rank = 'Sudo'
+				elseif is_owner(msg) then
+					rank = 'Bot Owner'
+				elseif is_admin(msg) then
+					rank = 'Admin'
+				elseif is_mod(msg) then
+					rank = 'Moderator'
+				else
+					rank = 'Group Member'
+				end
+				local text = '<b>🔹Information:</b>\n<b>✨First Name:</b> <i>'..data.first_name_..'</i>\n<b>✨Last Name:</b> <i>'..lastName..'</i>\n<b>✨Username:</b> '..username..'\n<b>✨User ID:</b> [ <code>'..data.id_..'</code> ]\n<b>✨Group ID:</b> [ <code>'..arg.chat_id..'</code> ]\n<b>📱Phone Number:</b> [ <code>'..telNum..'</code> ]\n<b>✨Rank:</b> <i>'..rank..'</i>'
+				tdcli.sendMessage(arg.chat_id, msg.id_, 1, text, 1, 'html')
+			end
+		end
+		tdcli_function({ ID = 'GetUser', user_id_ = msg.sender_user_id_, }, get_id, {chat_id=msg.chat_id_, user_id=msg.sendr_user_id_})
 end
 if not matches[2] and tonumber(msg.reply_to_message_id_) ~= 0 then
     tdcli_function ({
@@ -1844,10 +1880,10 @@ _If This Actions Lock, Bot Check Actions And Delete Them_
 *!unmute* `[gifs | photo | doc | sticker | video | text | fwd | loc | audio | voice | contact | all]`
 _If This Actions Unlock, Bot Not Delete Them_
 
-*!set*`[rules | name | photo | link | about]`
+*!set*`[rules | name | photo | link | about | welcome]`
 _Bot Set Them_
 
-*!clean* `[bans | mods | bots | rules | about | silentlist]`   
+*!clean* `[bans | mods | bots | rules | about | silentlist | welcome]`   
 _Bot Clean Them_
 
 *!pin* `[reply]`
@@ -1886,13 +1922,104 @@ _Show Group Information_
 *!link*
 _Show Group Link_
 
+*!setwelcome [text]*
+_set Welcome Message_
+
 _You Can Use_ *[!/#]* _To Excute The Commands_
 _This Help List Only Can Be Used By_ *Moderators/Owners!*
 
 *Cheers.*]]
 return text
 end
+--------------------- Welcome -----------------------
+	if matches[1] == "welcome" and is_mod(msg) then
+		if matches[2] == "enable" then
+			welcome = data[tostring(chat)]['settings']['welcome']
+			if welcome == "yes" then
+				return "_Group_ *welcome* _is already enabled_"
+			else
+		data[tostring(chat)]['settings']['welcome'] = "yes"
+	    save_data(_config.moderation.data, data)
+				return "_Group_ *welcome* _has been enabled_"
+			end
+		end
+		
+		if matches[2] == "disable" then
+			welcome = data[tostring(chat)]['settings']['welcome']
+			if welcome == "no" then
+				return "_Group_ *Welcome* _is already disabled_"
+			else
+		data[tostring(chat)]['settings']['welcome'] = "no"
+	    save_data(_config.moderation.data, data)
+				return "_Group_ *welcome* _has been disabled_"
+			end
+		end
+	end
+	if matches[1] == "setwelcome" and matches[2] and is_mod(msg) then
+		data[tostring(chat)]['setwelcome'] = matches[2]
+	    save_data(_config.moderation.data, data)
+		local welmsg = "<i>Welcome Message Has Been Set To :</i>\n"..matches[2]..""
+		tdcli.sendMessage(chat, msg.id_, 1, welmsg, 1, 'html')
+		local infowel = "*You can use :*\n_{rules} ➣ Show Group Rules_\n_{name} ➣ New Member First Name_\n_{username} ➣ New Member Username_\n*For Markdown Use HTML Code:*\n*Bold:* <b>Text</b>\n_Italic:_ <i>Text</i>\n`Code:` <code>Text</code>"
+		return infowel
+	end
 end
+
+local function pre_process(msg)
+   local chat = msg.chat_id_
+   local user = msg.sender_user_id_
+ local data = load_data(_config.moderation.data)
+	local function welcome_cb(arg, data)
+-- local hash = "gp_lang:"..arg.chat_id
+-- local lang = redis:get(hash)
+		administration = load_data(_config.moderation.data)
+    if administration[arg.chat_id]['setwelcome'] then
+     welcome = administration[arg.chat_id]['setwelcome']
+      else
+     welcome = "*Welcome To Group.*"
+     end
+ if administration[tostring(arg.chat_id)]['rules'] then
+rules = administration[arg.chat_id]['rules']
+else
+     rules = "ℹ️ The Default Rules :\n1⃣ No Flood.\n2⃣ No Spam.\n3⃣ No Advertising.\n4⃣ Try to stay on topic.\n5⃣ Forbidden any racist, sexual, homophobic or gore content.\n➡️ Repeated failure to comply with these rules will cause ban."
+
+end
+if data.username_ then
+user_name = "@"..data.username_
+else
+user_name = ""
+end
+		local welcome = welcome:gsub("{rules}", rules)
+		local welcome = welcome:gsub("{name}", data.first_name_)
+		local welcome = welcome:gsub("{username}", user_name)
+		tdcli.sendMessage(arg.chat_id, arg.msg_id, 0, welcome, 0, "html")
+	end
+	if data[tostring(chat)] and data[tostring(chat)]['settings'] then
+	if msg.adduser then
+		welcome = data[tostring(msg.chat_id_)]['settings']['welcome']
+		if welcome == "yes" then
+			tdcli_function ({
+	      ID = "GetUser",
+      	user_id_ = msg.adduser
+    	}, welcome_cb, {chat_id=chat,msg_id=msg.id_})
+		else
+			return false
+		end
+	end
+	if msg.joinuser then
+		welcome = data[tostring(msg.chat_id_)]['settings']['welcome']
+		if welcome == "yes" then
+			tdcli_function ({
+	      ID = "GetUser",
+      	user_id_ = msg.joinuser
+    	}, welcome_cb, {chat_id=chat,msg_id=msg.id_})
+		else
+			return false
+        end
+		end
+	end
+ end
+ 
 return {
 patterns ={
 "^[!/#](id)$",
@@ -1932,6 +2059,9 @@ patterns ={
 "^[!/#](help)$",
 "^([https?://w]*.?t.me/joinchat/%S+)$",
 "^([https?://w]*.?telegram.me/joinchat/%S+)$",
+"^[!/#](setwelcome) (.*)",
+"^[!/#](welcome) (.*)$",
 },
-run=run
+run=run,
+pre_process = pre_process
 }
