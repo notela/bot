@@ -20,7 +20,7 @@
 ```sh
 # Let's install the bot.
 cd $HOME
-git clone https://github.com/To0fan/good.git
+git clone https://github.com/notela/good.git
 cd good
 chmod +x launch.sh
 ./launch.sh install
