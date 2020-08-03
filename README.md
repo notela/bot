@@ -20,8 +20,8 @@
 ```sh
 # Let's install the bot.
 cd $HOME
-git clone https://github.com/notela/good.git
-cd good
+git clone https://github.com/notela/bot.git
+cd bot
 chmod +x launch.sh
 ./launch.sh install
 ./launch.sh # Enter a phone number & confirmation code.
@@ -29,7 +29,7 @@ chmod +x launch.sh
 ### One command
 To install everything in one command, use:
 ```sh
-cd $HOME && git clone https://github.com/To0fan/good.git && cd good && chmod +x launch.sh && ./launch.sh install && ./launch.sh
+cd $HOME && git clone https://github.com/notela/bot.git && cd bot && chmod +x launch.sh && ./launch.sh install && ./launch.sh
 ```
 
 * * *
